@@ -45,10 +45,11 @@ function duodecimos(vencBase) {
 }
 
 function subsidioPago(vencBase) {
-  const subsidio = SubsidioPago.checked ? 0 : vencBase ;
-
+  const subsidio = SubsidioPago.checked ? vencBase : 0 ;
+  
   return subsidio;
 }
+
 
 function naoRemunerado(faltas) {
   const naoRemunerado = (faltas * 4.73).toFixed(2);
@@ -92,12 +93,13 @@ calcBtn.addEventListener("click", (e) => {
   const base = parseFloat(vencBase.value);
   const commission = parseFloat(comission.value);
   const absences = parseFloat(faltas.value);
+  const subsidio = parseFloat(subsidioPago(vencBase));  
 
   const duodec = parseFloat(duodecimos(base));
   const naoRem = parseFloat(naoRemunerado(absences));
 
-  const vencBruto = (base + duodec * 2 + commission - absences).toFixed(2);
-
+  const vencBruto = parseFloat((base + duodec * 2 + commission + subsidio - absences).toFixed(2));
+  console.log(typeof vencBruto)
   const taxBracket = taxdata.find(
     (item) => vencBruto > item.min && vencBruto <= item.max
   );
@@ -110,18 +112,13 @@ calcBtn.addEventListener("click", (e) => {
   duodecimoFerias.textContent = duodec;
   bruto.textContent = vencBruto;
 
-  parseFloat(vencLiquido(base, duodec, naoRem, commission));
+  const vencFinal = vencLiquido(base, duodec, naoRem, commission, subsidio);
 
-  liquido.textContent = vencLiquido(base, duodec, naoRem, commission);
+  liquido.textContent = vencFinal;
   totalDescontos.textContent = totalDesc;
   descIrs.textContent = irs.toFixed(2);
   descSegSocial.textContent = segSocial.toFixed(2);
-
-  console.log(vencLiquido(base, duodec, naoRem, commission))
-  console.log(base)
-  console.log(duodec)
-  console.log(naoRem)
-  console.log(commission)
+  
 });
 
 backBtn.addEventListener("click", () => {
