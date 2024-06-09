@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Salários</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="js/scripts.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div id="calc-container">
+        <h2>Calculadora de Salários</h2>
+        <form id="imc-form">
+          <div class="form-inputs">
+            <div class="form-control">
+              <label for="base">Vencimento Base:</label>
+              <input
+                type="text"
+                name="base"
+                id="base"
+                placeholder="Vencimento Base"
+              />
+            </div>
+            <div class="form-control">
+              <label class="legenda">Subsídios em Duodécimos ? :</label>
+              <div id="confirma-duodecimos">
+                <div class="sim">
+                  <label for="sim">Sim</label>
+                  <input
+                    type="radio"
+                    name="radio"
+                    id="sim"                    
+                  />
+                </div>
+                <div class="nao">
+                  <label for="nao">Não</label>
+                  <input
+                    type="radio"
+                    name="radio"
+                    id="nao"                    
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-control">                
+                <div id="confirma-subsidio">
+                  <label class="legenda" for="pago">Recebeu Subsídio</label>
+                  <div class="pago">                    
+                    <input
+                      type="checkbox"
+                      name="radio"
+                      id="pago"                      
+                    />
+                  </div>                 
+                </div>  
+            </div>
+            <div class="form-control">
+              <label for="comission">Comissões:</label>
+              <input
+                type="text"
+                name="comission"
+                id="comission"
+                placeholder="Comissões"
+              />
+            </div>
+            <div class="form-control">
+              <label for="faltas">Faltas (Em Horas):</label>
+              <input
+                type="text"
+                name="faltas"
+                id="faltas"
+                placeholder="Faltas"
+              />
+            </div>
+          </div>
+          <div class="action-control">
+            <button type="submit" id="calc-btn">Calcular</button>
+            <button type="submit" id="clear-btn">Limpar</button>
+          </div>
+        </form>
+      </div>
+      <div id="result-container" class="hide">
+        <p id="bruto">O Seu Vencimento Bruto é: <span></span>€</p>
+        <p id="duodecimoN">
+          O seu Duodécimo do Subsídio de Natal é: <span></span>€
+        </p>
+        <p id="duodecimoF">
+          O seu Duodécimo do Subsídio de Férias é: <span></span>€
+        </p>
+        <p id="subsidioN">
+          O seu Duodécimo do Subsídio de Férias é: <span></span>€
+        </p>
+        <p id="subsidioF">
+          O seu Duodécimo do Subsídio de Férias é: <span></span>€
+        </p>
+
+        <div id="pay-table">
+          <div class="pay-header">
+            <h2>Descontos IRS</h2>
+            <br />
+            <p><span id="descIrs"></span>€</p>
+            <h2>Descontos Segurança Social</h2>
+            <br />
+            <p><span id="seg-social"></span>€</p>
+            <h2>Total de Descontos</h2>
+            <br />
+            <p><span id="total-descontos"></span>€</p>
+            <h2>Vencimento Líquido</h2>
+            <br />
+            <p><span id="liquido"></span>€</p>
+          </div>
+        </div>
+        <button type="submit" id="back-btn">Voltar</button>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+<!--Terminar display do valor do Subsidio quando recebido por inteiro-->
