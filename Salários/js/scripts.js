@@ -146,4 +146,4 @@ clearBtn.addEventListener("click", () => {
   clearAll();
 });
 
-// adicionar lógica para cálculo de valor/hora e horas extra.
+// adicionar lógica para cálculo de valor/hora e horas extra. corrigir cálculo do vencimento sem subsídio
