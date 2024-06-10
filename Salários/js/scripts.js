@@ -146,4 +146,4 @@ clearBtn.addEventListener("click", () => {
   clearAll();
 });
 
-// terminar código para calcular vencimento liquido no mÊs de subsídio.
+// adicionar lógica para cálculo de valor/hora e horas extra.
