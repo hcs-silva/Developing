@@ -35,21 +35,27 @@ const descIrs = document.querySelector("#descIrs");
 const descSegSocial = document.querySelector("#seg-social");
 const totalDescontos = document.querySelector("#total-descontos");
 const liquido = document.querySelector("#liquido");
-const subsidioCheck = document.querySelector("#confirma-subsidio")
+const subsidioCheck = document.querySelector("#confirma-subsidio");
+const subsidioCompleto = document.querySelector("#subsidioCompleto span");
 
 // Funções
 function duodecimos(vencBase) {
   const duodecimos = radioBtnNo.checked ? 0 : (vencBase / 12).toFixed(2);
-  
+  if (radioBtnNo.checked && !radioBtnYes.checked) {
+    subsidioCheck.classList.remove("hide");
+  }
+
+  if (!radioBtnNo.checked && radioBtnYes.checked) {
+    subsidioCheck.classList.add("hide");
+  }
   return duodecimos;
 }
 
 function subsidioPago(vencBase) {
-  const subsidio = SubsidioPago.checked ? vencBase : 0 ;
-  
+  const subsidio = subsidioCheck.checked ? 0 : vencBase;
+
   return subsidio;
 }
-
 
 function naoRemunerado(faltas) {
   const naoRemunerado = (faltas * 4.73).toFixed(2);
@@ -93,13 +99,15 @@ calcBtn.addEventListener("click", (e) => {
   const base = parseFloat(vencBase.value);
   const commission = parseFloat(comission.value);
   const absences = parseFloat(faltas.value);
-  const subsidio = parseFloat(subsidioPago(vencBase));  
+  const subsidio = parseFloat(subsidioPago(vencBase.value));
 
   const duodec = parseFloat(duodecimos(base));
   const naoRem = parseFloat(naoRemunerado(absences));
 
-  const vencBruto = parseFloat((base + duodec * 2 + commission + subsidio - absences).toFixed(2));
-  console.log(typeof vencBruto)
+  const vencBruto = parseFloat(
+    (base + duodec * 2 + commission + subsidio - absences).toFixed(2)
+  );
+
   const taxBracket = taxdata.find(
     (item) => vencBruto > item.min && vencBruto <= item.max
   );
@@ -118,7 +126,15 @@ calcBtn.addEventListener("click", (e) => {
   totalDescontos.textContent = totalDesc;
   descIrs.textContent = irs.toFixed(2);
   descSegSocial.textContent = segSocial.toFixed(2);
-  
+  subsidioCompleto.textContent = subsidio.toFixed(2);
+});
+
+radioBtnNo.addEventListener("change", () => {
+  duodecimos(vencBase);
+});
+
+radioBtnYes.addEventListener("change", () => {
+  duodecimos(vencBase);
 });
 
 backBtn.addEventListener("click", () => {
