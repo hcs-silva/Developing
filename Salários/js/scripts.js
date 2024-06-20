@@ -155,3 +155,4 @@ clearBtn.addEventListener("click", () => {
 });
 
 // adicionar lógica para cálculo de valor/hora e horas extra. corrigir cálculo do vencimento sem subsídio
+//resolver problemas na função subsidioPago() refatorizar ou construir de forma diferente. (Radio button de novo?)
