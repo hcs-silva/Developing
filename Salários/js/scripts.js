@@ -30,6 +30,8 @@ const SubsidioPago = document.querySelector("#pago");
 const bruto = document.querySelector("#bruto span");
 const duodecimoNatal = document.querySelector("#duodecimoN span");
 const duodecimoFerias = document.querySelector("#duodecimoF span");
+const duodecimoNatalFull = document.querySelector("#duodecimoN");
+const duodecimoFeriasFull = document.querySelector("#duodecimoF");
 
 const descIrs = document.querySelector("#descIrs");
 const descSegSocial = document.querySelector("#seg-social");
@@ -38,21 +40,27 @@ const liquido = document.querySelector("#liquido");
 const subsidioCheck = document.querySelector("#confirma-subsidio");
 const subsidioCompleto = document.querySelector("#subsidioCompleto span");
 
+
+
 // Funções
 function duodecimos(vencBase) {
   const duodecimos = radioBtnNo.checked ? 0 : (vencBase / 12).toFixed(2);
   if (radioBtnNo.checked && !radioBtnYes.checked) {
     subsidioCheck.classList.remove("hide");
+    duodecimoFeriasFull.classList.add("hide");
+    duodecimoNatalFull.classList.add("hide");
   }
 
   if (!radioBtnNo.checked && radioBtnYes.checked) {
     subsidioCheck.classList.add("hide");
+    duodecimoFeriasFull.classList.remove("hide");
+    duodecimoNatalFull.classList.remove("hide");
   }
   return duodecimos;
 }
 
 function subsidioPago(vencBase) {
-  const subsidio = subsidioCheck.checked ? 0 : vencBase;
+  const subsidio = subsidioCheck.checked ? 0 : parseFloat(vencBase);
 
   return subsidio;
 }
