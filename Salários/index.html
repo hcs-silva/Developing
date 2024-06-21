@@ -23,7 +23,37 @@
               />
             </div>
             <div class="form-control">
-              <label class="legenda">Subsídios em Duodécimos ? :</label>
+              <label class="legenda">Tipo de Contrato:</label>
+              <div id="confirma-duodecimos">
+                <div class="sim">
+                  <label for="sim">Full-Time</label>
+                  <input
+                    type="radio"
+                    name="time"
+                    id="full-time"                    
+                  />
+                </div>
+                <div class="nao">
+                  <label for="nao">Part-Time</label>
+                  <input
+                    type="radio"
+                    name="time"
+                    id="part-time"                    
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-control" id="horas-semanais">
+              <label for="base">Horas Semanais Trabalhadas:</label>
+              <input
+                type="text"
+                name="horas"
+                id="horas-semanais-trabalhadas"
+                placeholder="Horas Semanais Trabalhadas"
+              />
+            </div>
+            <div class="form-control">
+              <label class="legenda">Subsídios em Duodécimos ?</label>
               <div id="confirma-duodecimos">
                 <div class="sim">
                   <label for="sim">Sim</label>
@@ -97,7 +127,7 @@
         <p id="duodecimoF">
           O seu Duodécimo do Subsídio de Férias é: <span></span>€
         </p>
-        <p id="subsidioCompleto">
+        <p id="subsidioCompleto" class="hide">
           O valor do seu Subsídio é de: <span></span>€
        </p>
 

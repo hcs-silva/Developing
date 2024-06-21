@@ -16,6 +16,7 @@ const taxdata = [
 
 // Seleção de Elementos
 const vencBase = document.querySelector("#base");
+const horasTrabalhadas = document.querySelector("#horas-semanais-trabalhadas");
 const comission = document.querySelector("#comission");
 const faltas = document.querySelector("#faltas");
 const calcBtn = document.querySelector("#calc-btn");
@@ -42,9 +43,6 @@ const subsidioCheck = document.querySelector("#confirmacao");
 const subsidioCompleto = document.querySelector("#subsidioCompleto span");
 const subsidioCompletoBox = document.querySelector("#subsidioCompleto");
 
-
-
-
 // Funções
 function duodecimos(vencBase) {
   const duodecimos = radioBtnNo.checked ? 0 : (vencBase / 12).toFixed(2);
@@ -64,23 +62,30 @@ function duodecimos(vencBase) {
 
 // Devolve o valor do subsidio de férias ou natal, se tiver sido recebido.
 function subsidioRecebido(vencBase) {
-  let subsidio
-  if(subsidioPago.checked && !subsidioNaoPago.checked) {
+  const subsidio = subsidioPago.checked ? vencBase : 0;
+  if (subsidioPago.checked && !subsidioNaoPago.checked) {
     subsidioCompletoBox.classList.remove("hide");
-    subsidio = parseFloat(vencBase);
   }
 
-  if(!subsidioPago.checked && subsidioNaoPago.checked) {
+  if (!subsidioPago.checked && subsidioNaoPago.checked) {
     subsidioCompletoBox.classList.add("hide");
-    subsidio = 0;
   }
-  console.log(subsidio)
+
   return subsidio;
 }
 
+//Calcula o valor por hora trabalhada (a fórmula é: (Remuneração base Mensal x 12)/(52 x Numero de horas trabalhadas semanalmente))
+
+function valorHora(vencBase, horasTrabalhadas) {
+  const base = parseFloat(vencBase);
+  const horasSemana = parseFloat(horasTrabalhadas);
+  const precoHora = (base * 12) / (52 * horasSemana);  
+  return precoHora;
+}
+
 // Calcula o valor a deduzir das faltas do funcionário
-function naoRemunerado(faltas) {
-  const naoRemunerado = (faltas * 4.73).toFixed(2);
+function naoRemunerado(faltas, precoHora) {
+  const naoRemunerado = (faltas * precoHora).toFixed(2);
 
   return naoRemunerado;
 }
@@ -122,9 +127,11 @@ calcBtn.addEventListener("click", (e) => {
   const commission = parseFloat(comission.value);
   const absences = parseFloat(faltas.value);
   const subsidio = parseFloat(subsidioRecebido(vencBase.value));
+  const horas = parseFloat(horasTrabalhadas.value);
+  const custoHora = parseFloat(valorHora(base, horas))
 
   const duodec = parseFloat(duodecimos(base));
-  const naoRem = parseFloat(naoRemunerado(absences));
+  const naoRem = parseFloat(naoRemunerado(absences, custoHora));
 
   const vencBruto = parseFloat(
     (base + duodec * 2 + commission + subsidio - absences).toFixed(2)
@@ -159,7 +166,6 @@ radioBtnYes.addEventListener("change", () => {
   duodecimos(vencBase);
 });
 
-
 backBtn.addEventListener("click", () => {
   calcContainer.classList.remove("hide");
   result.classList.add("hide");
@@ -169,5 +175,4 @@ clearBtn.addEventListener("click", () => {
   clearAll();
 });
 
-// adicionar lógica para cálculo de valor/hora e horas extra. corrigir cálculo do vencimento sem subsídio
-
+// adicionar lógica para cálculo de valor/hora e horas extra.
