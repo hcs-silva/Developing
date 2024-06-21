@@ -43,16 +43,25 @@
                 </div>
               </div>
             </div>
-            <div class="form-control">                
-                <div id="confirma-subsidio" class="hide">
-                  <label class="legenda" for="pago">Recebeu Subsídio</label>
-                  <div class="pago">                    
+            <div class="form-control hide" id="confirmacao" >
+              <label class="legenda">Recebeu Subsídio ?</label>                
+                <div id="confirma-subsidio">                 
+                  <div class="pago">
+                    <label for="pago">Sim</label>                    
                     <input
-                      type="checkbox"
+                      type="radio"
                       name="checkbox"
                       id="pago"                      
                     />
-                  </div>                 
+                  </div>
+                  <div class="confirma-subsidio">
+                    <label for="nao-pago">Não</label>                  
+                    <input
+                      type="radio"
+                      name="checkbox"
+                      id="nao-pago"                      
+                    />
+                  </div>                
                 </div>  
             </div>
             <div class="form-control">

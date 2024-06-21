@@ -25,7 +25,8 @@ const backBtn = document.querySelector("#back-btn");
 const clearBtn = document.querySelector("#clear-btn");
 const radioBtnNo = document.querySelector("#nao");
 const radioBtnYes = document.querySelector("#sim");
-const SubsidioPago = document.querySelector("#pago");
+const subsidioPago = document.querySelector("#pago");
+const subsidioNaoPago = document.querySelector("#nao-pago");
 
 const bruto = document.querySelector("#bruto span");
 const duodecimoNatal = document.querySelector("#duodecimoN span");
@@ -37,8 +38,10 @@ const descIrs = document.querySelector("#descIrs");
 const descSegSocial = document.querySelector("#seg-social");
 const totalDescontos = document.querySelector("#total-descontos");
 const liquido = document.querySelector("#liquido");
-const subsidioCheck = document.querySelector("#confirma-subsidio");
+const subsidioCheck = document.querySelector("#confirmacao");
 const subsidioCompleto = document.querySelector("#subsidioCompleto span");
+const subsidioCompletoBox = document.querySelector("#subsidioCompleto");
+
 
 
 
@@ -59,12 +62,23 @@ function duodecimos(vencBase) {
   return duodecimos;
 }
 
-function subsidioPago(vencBase) {
-  const subsidio = subsidioCheck.checked ? 0 : parseFloat(vencBase);
+// Devolve o valor do subsidio de férias ou natal, se tiver sido recebido.
+function subsidioRecebido(vencBase) {
+  let subsidio
+  if(subsidioPago.checked && !subsidioNaoPago.checked) {
+    subsidioCompletoBox.classList.remove("hide");
+    subsidio = parseFloat(vencBase);
+  }
 
+  if(!subsidioPago.checked && subsidioNaoPago.checked) {
+    subsidioCompletoBox.classList.add("hide");
+    subsidio = 0;
+  }
+  console.log(subsidio)
   return subsidio;
 }
 
+// Calcula o valor a deduzir das faltas do funcionário
 function naoRemunerado(faltas) {
   const naoRemunerado = (faltas * 4.73).toFixed(2);
 
@@ -107,7 +121,7 @@ calcBtn.addEventListener("click", (e) => {
   const base = parseFloat(vencBase.value);
   const commission = parseFloat(comission.value);
   const absences = parseFloat(faltas.value);
-  const subsidio = parseFloat(subsidioPago(vencBase.value));
+  const subsidio = parseFloat(subsidioRecebido(vencBase.value));
 
   const duodec = parseFloat(duodecimos(base));
   const naoRem = parseFloat(naoRemunerado(absences));
@@ -145,6 +159,7 @@ radioBtnYes.addEventListener("change", () => {
   duodecimos(vencBase);
 });
 
+
 backBtn.addEventListener("click", () => {
   calcContainer.classList.remove("hide");
   result.classList.add("hide");
@@ -155,4 +170,4 @@ clearBtn.addEventListener("click", () => {
 });
 
 // adicionar lógica para cálculo de valor/hora e horas extra. corrigir cálculo do vencimento sem subsídio
-//resolver problemas na função subsidioPago() refatorizar ou construir de forma diferente. (Radio button de novo?)
+

@@ -31,7 +31,7 @@ body {
   padding: 2rem;
 }
 
-/* IMC Form */
+/* Formulário de cálculo de vencimento */
 
 #calc-container h2 {
   text-align: center;
@@ -70,7 +70,7 @@ body {
 
 #confirma-subsidio {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 1rem;
 }
 
