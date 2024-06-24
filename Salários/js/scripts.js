@@ -17,6 +17,7 @@ const taxdata = [
 // Seleção de Elementos
 const vencBase = document.querySelector("#base");
 const horasTrabalhadas = document.querySelector("#horas-semanais-trabalhadas");
+const horasTrabalhadasBox = document.querySelector("#horas-semanais");
 const comission = document.querySelector("#comission");
 const faltas = document.querySelector("#faltas");
 const calcBtn = document.querySelector("#calc-btn");
@@ -42,6 +43,8 @@ const liquido = document.querySelector("#liquido");
 const subsidioCheck = document.querySelector("#confirmacao");
 const subsidioCompleto = document.querySelector("#subsidioCompleto span");
 const subsidioCompletoBox = document.querySelector("#subsidioCompleto");
+const contratoFull = document.querySelector("#full-time");
+const contratoPart = document.querySelector("#part-time");
 
 // Funções
 function duodecimos(vencBase) {
@@ -81,12 +84,23 @@ function subsidioRecebido(vencBase) {
   return subsidio;
 }
 
+// Determina o número de horas trabalhadas, conforme o tipo de contrato.
+function tipoContrato() {
+  if(contratoFull.checked) {
+    horasTrabalhadasBox.classList.add("hide");
+  }
+
+  if(!contratoFull.checked && contratoPart.checked) {
+    horasTrabalhadasBox.classList.remove("hide")
+  }
+}
 //Calcula o valor por hora trabalhada (a fórmula é: (Remuneração base Mensal x 12)/(52 x Numero de horas trabalhadas semanalmente))
 
 function valorHora(vencBase, horasTrabalhadas) {
   const base = parseFloat(vencBase);
-  const horasSemana = parseFloat(horasTrabalhadas);
-  const precoHora = (base * 12) / (52 * horasSemana);  
+  const horasSemana = contratoFull.checked ? 40 : parseFloat(horasTrabalhadas);
+  const precoHora = (base * 12) / (52 * horasSemana); 
+  console.log(precoHora) 
   return precoHora;
 }
 
@@ -172,6 +186,15 @@ radioBtnNo.addEventListener("change", () => {
 radioBtnYes.addEventListener("change", () => {
   duodecimos(vencBase);
 });
+
+
+contratoFull.addEventListener("change", () => {
+  tipoContrato();
+});
+
+contratoPart.addEventListener("change", () => {
+  tipoContrato();
+})
 
 backBtn.addEventListener("click", () => {
   calcContainer.classList.remove("hide");
