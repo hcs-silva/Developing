@@ -57,12 +57,18 @@ function duodecimos(vencBase) {
     duodecimoFeriasFull.classList.remove("hide");
     duodecimoNatalFull.classList.remove("hide");
   }
+  
   return duodecimos;
 }
 
 // Devolve o valor do subsidio de férias ou natal, se tiver sido recebido.
 function subsidioRecebido(vencBase) {
-  const subsidio = subsidioPago.checked ? vencBase : 0;
+  let subsidio = subsidioPago.checked ? vencBase : 0;
+ if(radioBtnYes.checked) {
+  subsidio = 0;
+  subsidioCompletoBox.classList.add("hide");
+ }else {
+  
   if (subsidioPago.checked && !subsidioNaoPago.checked) {
     subsidioCompletoBox.classList.remove("hide");
   }
@@ -70,6 +76,7 @@ function subsidioRecebido(vencBase) {
   if (!subsidioPago.checked && subsidioNaoPago.checked) {
     subsidioCompletoBox.classList.add("hide");
   }
+ }
 
   return subsidio;
 }
