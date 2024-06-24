@@ -12,12 +12,12 @@
 }
 
 body {
-  background-color: #090e22;
+  background-color: #f4f4f9;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  color: #fff;
+  color: #333;
 }
 
 .hide {
@@ -27,8 +27,9 @@ body {
 .container {
   min-width: 400px;
   min-height: 400px;
-  background-color: #1d1e33;
+  background-color: #ffffff;
   padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Formulário de cálculo de vencimento */
@@ -36,6 +37,7 @@ body {
 #calc-container h2 {
   text-align: center;
   margin-bottom: 2rem;
+  color: #555;
 }
 
 .form-inputs {
@@ -54,11 +56,13 @@ body {
 .form-control label {
   font-weight: bold;
   margin-bottom: 0.6rem;
-  color: #ccc;
+  color: #666;
 }
 
 .form-control input {
   padding: 1rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 #confirma-duodecimos {
@@ -84,12 +88,14 @@ body {
 button {
   text-transform: uppercase;
   padding: 1rem 1.5rem;
-  background-color: #f44236;
+  background-color: #007bff;
   border: none;
   color: #fff;
   cursor: pointer;
   opacity: 0.9;
   flex: 1;
+  border-radius: 15px;
+  transition: opacity 0.3s ease;
 }
 
 button:hover {
@@ -97,7 +103,7 @@ button:hover {
 }
 
 #clear-btn {
-  background-color: #444;
+  background-color: #6c757d;
 }
 
 /* Table */
@@ -110,7 +116,7 @@ button:hover {
 
 #result-container h3 {
   margin-top: 1rem;
-  color: #dfdfdf;
+  color: #555;
 }
 
 #result-container p {
@@ -128,7 +134,7 @@ button:hover {
 
 .pay-header {
   font-weight: bold;
-  color: #ccc;
+  color: #666;
 }
 
 .pay-header p {
@@ -142,7 +148,7 @@ button:hover {
   justify-content: space-between;
   margin-bottom: 0.5rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid #ddd;
 }
 
 .pay-header h4,
