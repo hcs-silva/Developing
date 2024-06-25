@@ -72,6 +72,13 @@ body {
   margin-bottom: 1rem;
 }
 
+#confirma-horas {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
 #confirma-subsidio {
   display: flex;
   justify-content: space-evenly;
@@ -163,4 +170,8 @@ button:hover {
 
 #back-btn {
   align-self: center;
+}
+
+#horas-mes input {
+  margin-bottom: 1rem;
 }

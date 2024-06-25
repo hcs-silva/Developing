@@ -44,12 +44,56 @@
               </div>
             </div>
             <div class="form-control hide" id="horas-semanais">
-              <label for="base">Horas Semanais Trabalhadas:</label>
+              <label for="horas-semanais-trabalhadas">Horas Semanais Trabalhadas:</label>
               <input
                 type="text"
                 name="horas"
                 id="horas-semanais-trabalhadas"
                 placeholder="Horas Semanais Trabalhadas"
+              />
+            </div>
+            <div class="form-control" id="horas-extra">
+              <label for="horas">Horas Extra?</label>
+              <div id="confirma-horas">
+                <div class="sim">
+                  <label for="sim">Sim</label>
+                  <input
+                    type="radio"
+                    name="horas"
+                    id="fez"                    
+                  />
+                </div>
+                <div class="nao">
+                  <label for="nao">Não</label>
+                  <input
+                    type="radio"
+                    name="horas"
+                    id="nao-fez"                    
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-control hide" id="horas-mes">
+              <label for="horas50">Horas 50%</label>
+              <input
+                type="text"
+                name="horas50"
+                id="horas50"
+                placeholder="Horas Extra 50%"
+              />
+              <label for="horas50">Horas 75%</label>
+              <input
+                type="text"
+                name="horas50"
+                id="horas75"
+                placeholder="Horas Extra 75%"
+              />
+              <label for="horas100">Horas 100%</label>
+              <input
+                type="text"
+                name="horas50"
+                id="horas100"
+                placeholder="Horas Extra 100%"
               />
             </div>
             <div class="form-control">
@@ -60,7 +104,7 @@
                   <input
                     type="radio"
                     name="radio"
-                    id="sim"                    
+                    id="duodecimos"                    
                   />
                 </div>
                 <div class="nao">
@@ -68,7 +112,7 @@
                   <input
                     type="radio"
                     name="radio"
-                    id="nao"                    
+                    id="nao-duodecimos"                    
                   />
                 </div>
               </div>
@@ -121,6 +165,7 @@
       </div>
       <div id="result-container" class="hide">
         <p id="bruto">O Seu Vencimento Bruto é: <span></span>€</p>
+        <p id="extra">O Seu Total de Horas Extra é: <span></span>€</p>
         <p id="duodecimoN">
           O seu Duodécimo do Subsídio de Natal é: <span></span>€
         </p>

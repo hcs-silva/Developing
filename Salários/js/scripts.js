@@ -25,12 +25,19 @@ const result = document.querySelector("#result-container");
 const calcContainer = document.querySelector("#calc-container");
 const backBtn = document.querySelector("#back-btn");
 const clearBtn = document.querySelector("#clear-btn");
-const radioBtnNo = document.querySelector("#nao");
-const radioBtnYes = document.querySelector("#sim");
+const radioBtnNo = document.querySelector("#nao-duodecimos");
+const radioBtnYes = document.querySelector("#duodecimos");
 const subsidioPago = document.querySelector("#pago");
 const subsidioNaoPago = document.querySelector("#nao-pago");
+const fezHoras = document.querySelector("#fez");
+const naoFezHoras = document.querySelector("#nao-fez");
+const formHoras = document.querySelector("#horas-mes");
+const horas50 = document.querySelector("#horas50");
+const horas75 = document.querySelector("#horas75");
+const horas100 = document.querySelector("#horas100");
 
 const bruto = document.querySelector("#bruto span");
+const extra = document.querySelector("#extra span")
 const duodecimoNatal = document.querySelector("#duodecimoN span");
 const duodecimoFerias = document.querySelector("#duodecimoF span");
 const duodecimoNatalFull = document.querySelector("#duodecimoN");
@@ -60,38 +67,59 @@ function duodecimos(vencBase) {
     duodecimoFeriasFull.classList.remove("hide");
     duodecimoNatalFull.classList.remove("hide");
   }
-  
+
   return duodecimos;
 }
 
 // Devolve o valor do subsidio de férias ou natal, se tiver sido recebido.
 function subsidioRecebido(vencBase) {
   let subsidio = subsidioPago.checked ? vencBase : 0;
- if(radioBtnYes.checked) {
-  subsidio = 0;
-  subsidioCompletoBox.classList.add("hide");
- }else {
-  
-  if (subsidioPago.checked && !subsidioNaoPago.checked) {
-    subsidioCompletoBox.classList.remove("hide");
-  }
-
-  if (!subsidioPago.checked && subsidioNaoPago.checked) {
+  if (radioBtnYes.checked) {
+    subsidio = 0;
     subsidioCompletoBox.classList.add("hide");
+  } else {
+    if (subsidioPago.checked && !subsidioNaoPago.checked) {
+      subsidioCompletoBox.classList.remove("hide");
+    }
+
+    if (!subsidioPago.checked && subsidioNaoPago.checked) {
+      subsidioCompletoBox.classList.add("hide");
+    }
   }
- }
 
   return subsidio;
 }
 
+//Toggle form horas
+function toggleHoras() {
+  if (fezHoras.checked && !naoFezHoras.checked) {
+    formHoras.classList.remove("hide");
+  }
+
+  if (!fezHoras.checked && naoFezHoras.checked) {
+    formHoras.classList.add("hide");
+  }
+}
+
+//Calcular valor das horas extra
+
+function horasExtraordinarias(horas50, horas75, horas100, precoHora) {
+  const totalHoras =
+    (horas50 * (precoHora * 1.5)) +
+    (horas75 * (precoHora * 1.75)) +
+    (horas100 * (precoHora * 2));  
+  console.log(totalHoras);
+  return totalHoras;
+}
+
 // Determina o número de horas trabalhadas, conforme o tipo de contrato.
 function tipoContrato() {
-  if(contratoFull.checked) {
+  if (contratoFull.checked) {
     horasTrabalhadasBox.classList.add("hide");
   }
 
-  if(!contratoFull.checked && contratoPart.checked) {
-    horasTrabalhadasBox.classList.remove("hide")
+  if (!contratoFull.checked && contratoPart.checked) {
+    horasTrabalhadasBox.classList.remove("hide");
   }
 }
 //Calcula o valor por hora trabalhada (a fórmula é: (Remuneração base Mensal x 12)/(52 x Numero de horas trabalhadas semanalmente))
@@ -99,8 +127,8 @@ function tipoContrato() {
 function valorHora(vencBase, horasTrabalhadas) {
   const base = parseFloat(vencBase);
   const horasSemana = contratoFull.checked ? 40 : parseFloat(horasTrabalhadas);
-  const precoHora = (base * 12) / (52 * horasSemana); 
-  console.log(precoHora) 
+  const precoHora = (base * 12) / (52 * horasSemana);
+  
   return precoHora;
 }
 
@@ -111,11 +139,11 @@ function naoRemunerado(faltas, precoHora) {
   return naoRemunerado;
 }
 
-function vencLiquido(vencBase, duodecimos, naoRemunerado, comission, subsidio) {
+function vencLiquido(vencBase, duodecimos, naoRemunerado, comission, subsidio, totalHoras) {
   const vencBruto = (
     vencBase +
     duodecimos * 2 +
-    subsidio +
+    subsidio + totalHoras + 
     comission -
     naoRemunerado
   ).toFixed(2);
@@ -149,15 +177,23 @@ calcBtn.addEventListener("click", (e) => {
   const absences = parseFloat(faltas.value);
   const subsidio = parseFloat(subsidioRecebido(vencBase.value));
   const horas = parseFloat(horasTrabalhadas.value);
-  const custoHora = parseFloat(valorHora(base, horas))
+  const custoHora = parseFloat(valorHora(base, horas));
+  
+
+  const horas50Val = parseFloat(horas50.value);
+  const horas75Val = parseFloat(horas75.value);
+  const horas100Val = parseFloat(horas100.value);
+
+  const totalHoras = horasExtraordinarias(horas50Val, horas75Val, horas100Val, custoHora);
+  
 
   const duodec = parseFloat(duodecimos(base));
   const naoRem = parseFloat(naoRemunerado(absences, custoHora));
 
   const vencBruto = parseFloat(
-    (base + duodec * 2 + commission + subsidio - absences).toFixed(2)
+    (base + duodec * 2 + commission + totalHoras + subsidio - absences).toFixed(2)
   );
-
+  console.log(vencBruto);
   const taxBracket = taxdata.find(
     (item) => vencBruto > item.min && vencBruto <= item.max
   );
@@ -169,8 +205,9 @@ calcBtn.addEventListener("click", (e) => {
   duodecimoNatal.textContent = duodec;
   duodecimoFerias.textContent = duodec;
   bruto.textContent = vencBruto;
+  extra.textContent = totalHoras.toFixed(2);
 
-  const vencFinal = vencLiquido(base, duodec, naoRem, commission, subsidio);
+  const vencFinal = vencLiquido(base, duodec, naoRem, commission, subsidio, totalHoras);
 
   liquido.textContent = vencFinal;
   totalDescontos.textContent = totalDesc;
@@ -187,14 +224,21 @@ radioBtnYes.addEventListener("change", () => {
   duodecimos(vencBase);
 });
 
-
 contratoFull.addEventListener("change", () => {
   tipoContrato();
 });
 
 contratoPart.addEventListener("change", () => {
   tipoContrato();
-})
+});
+
+fezHoras.addEventListener("change", () => {
+  toggleHoras();
+});
+
+naoFezHoras.addEventListener("change", () => {
+  toggleHoras();
+});
 
 backBtn.addEventListener("click", () => {
   calcContainer.classList.remove("hide");
