@@ -11,7 +11,7 @@
     <div class="container">
       <div id="calc-container">
         <h2>Calculadora de Salários</h2>
-        <form id="imc-form">
+        <form id="salary-form">
           <div class="form-inputs">
             <div class="form-control">
               <label for="base">Vencimento Base:</label>
@@ -164,7 +164,8 @@
         </form>
       </div>
       <div id="result-container" class="hide">
-        <p id="bruto">O Seu Vencimento Bruto é: <span></span>€</p>
+        <div id="cabecalhos">
+          <p id="bruto">O Seu Vencimento Bruto é: <span></span>€</p>
         <p id="extra">O Seu Total de Horas Extra é: <span></span>€</p>
         <p id="duodecimoN">
           O seu Duodécimo do Subsídio de Natal é: <span></span>€
@@ -175,6 +176,7 @@
         <p id="subsidioCompleto" class="hide">
           O valor do seu Subsídio é de: <span></span>€
        </p>
+        </div>
 
         <div id="pay-table">
           <div class="pay-header">
@@ -184,6 +186,9 @@
             <h2>Descontos Segurança Social</h2>
             <br />
             <p><span id="seg-social"></span>€</p>
+            <h2>Descontos por Faltas</h2>
+            <br />
+            <p><span id="por-faltas"></span>€</p>
             <h2>Total de Descontos</h2>
             <br />
             <p><span id="total-descontos"></span>€</p>

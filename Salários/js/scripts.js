@@ -46,6 +46,7 @@ const duodecimoFeriasFull = document.querySelector("#duodecimoF");
 
 const descIrs = document.querySelector("#descIrs");
 const descSegSocial = document.querySelector("#seg-social");
+const descPorFaltas = document.querySelector("#por-faltas");
 const totalDescontos = document.querySelector("#total-descontos");
 const liquido = document.querySelector("#liquido");
 const subsidioCheck = document.querySelector("#confirmacao");
@@ -223,6 +224,7 @@ calcBtn.addEventListener("click", (e) => {
   totalDescontos.textContent = totalDesc;
   descIrs.textContent = irs.toFixed(2);
   descSegSocial.textContent = segSocial.toFixed(2);
+  descPorFaltas.textContent = naoRem.toFixed(2);
   subsidioCompleto.textContent = subsidio.toFixed(2);
 });
 
