@@ -37,7 +37,8 @@ const horas75 = document.querySelector("#horas75");
 const horas100 = document.querySelector("#horas100");
 
 const bruto = document.querySelector("#bruto span");
-const extra = document.querySelector("#extra span")
+const extra = document.querySelector("#extra span");
+const extraBox = document.querySelector("#extra");
 const duodecimoNatal = document.querySelector("#duodecimoN span");
 const duodecimoFerias = document.querySelector("#duodecimoF span");
 const duodecimoNatalFull = document.querySelector("#duodecimoN");
@@ -104,10 +105,15 @@ function toggleHoras() {
 //Calcular valor das horas extra
 
 function horasExtraordinarias(horas50, horas75, horas100, precoHora) {
-  const totalHoras =
+    let totalHoras;
+  if(!fezHoras.checked && naoFezHoras.checked) {
+    totalHoras = 0;
+    extraBox.classList.add("hide");   
+  } else 
+  {totalHoras =
     (horas50 * (precoHora * 1.5)) +
     (horas75 * (precoHora * 1.75)) +
-    (horas100 * (precoHora * 2));  
+    (horas100 * (precoHora * 2));  }
   console.log(totalHoras);
   return totalHoras;
 }
@@ -186,7 +192,7 @@ calcBtn.addEventListener("click", (e) => {
 
   const totalHoras = horasExtraordinarias(horas50Val, horas75Val, horas100Val, custoHora);
   
-
+  console.log(totalHoras);
   const duodec = parseFloat(duodecimos(base));
   const naoRem = parseFloat(naoRemunerado(absences, custoHora));
 
@@ -194,21 +200,25 @@ calcBtn.addEventListener("click", (e) => {
     (base + duodec * 2 + commission + totalHoras + subsidio - absences).toFixed(2)
   );
   console.log(vencBruto);
+
   const taxBracket = taxdata.find(
     (item) => vencBruto > item.min && vencBruto <= item.max
   );
+
+
   const irs = taxBracket ? vencBruto * taxBracket.taxa : 0;
 
   const segSocial = vencBruto * 0.11;
 
   const totalDesc = (irs + segSocial).toFixed(2);
+
+
+  const vencFinal = vencLiquido(base, duodec, naoRem, commission, subsidio, totalHoras);
+
   duodecimoNatal.textContent = duodec;
   duodecimoFerias.textContent = duodec;
   bruto.textContent = vencBruto;
   extra.textContent = totalHoras.toFixed(2);
-
-  const vencFinal = vencLiquido(base, duodec, naoRem, commission, subsidio, totalHoras);
-
   liquido.textContent = vencFinal;
   totalDescontos.textContent = totalDesc;
   descIrs.textContent = irs.toFixed(2);
