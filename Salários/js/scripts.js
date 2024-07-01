@@ -54,6 +54,7 @@ const subsidioCompleto = document.querySelector("#subsidioCompleto span");
 const subsidioCompletoBox = document.querySelector("#subsidioCompleto");
 const contratoFull = document.querySelector("#full-time");
 const contratoPart = document.querySelector("#part-time");
+const numberInputs = document.querySelectorAll('input[type="number"]');
 
 // Funções
 function duodecimos(vencBase) {
@@ -72,6 +73,44 @@ function duodecimos(vencBase) {
 
   return duodecimos;
 }
+
+// Valida a existência de apenas números e um ponto decimal
+
+function validateNumberInput(input) {
+  if (input.type === "number") {
+    let value = input.value;
+
+    // Remove todos os caracteres não-digito.
+    value = value.replace(/[^0-9.]/g, "");
+
+    // Garante a existência de apenas um ponto decimal
+    const parts = value.split(".");
+    if (parts.length > 2) {
+      value = parts[0] + "." + parts.slice(1).join("");
+    }
+
+    // Actualiza o input value
+    input.value = value;
+  }
+}
+
+// Previne e, E, +, - de serem escritos no campo
+numberInputs.forEach(input => {
+  // Prevent e, E, +, - characters from being typed
+  input.addEventListener('keydown', function(event) {
+    if (['e', 'E', '+', '-'].includes(event.key)) {
+      event.preventDefault();
+    }
+  });
+   // adicionados event listeners para eventos de input e paste para validar os campos de input com type number
+   input.addEventListener('input', function() {
+    validateNumberInput(this);
+  });
+
+  input.addEventListener('paste', function() {
+    validateNumberInput(this);
+  });
+});
 
 // Devolve o valor do subsidio de férias ou natal, se tiver sido recebido.
 function subsidioRecebido(vencBase) {
@@ -106,20 +145,22 @@ function toggleHoras() {
 //Calcular valor das horas extra
 
 function horasExtraordinarias(horas50, horas75, horas100, precoHora) {
-    let totalHoras;
-  if(!fezHoras.checked && naoFezHoras.checked) {
+  let totalHoras;
+  if (!fezHoras.checked && naoFezHoras.checked) {
     totalHoras = 0;
-    extraBox.classList.add("hide");   
-  } else 
-  {totalHoras =
-    (horas50 * (precoHora * 1.5)) +
-    (horas75 * (precoHora * 1.75)) +
-    (horas100 * (precoHora * 2));  }
+    extraBox.classList.add("hide");
+  } else {
+    totalHoras =
+      horas50 * (precoHora * 1.5) +
+      horas75 * (precoHora * 1.75) +
+      horas100 * (precoHora * 2);
+  }
   console.log(totalHoras);
   return totalHoras;
 }
 
 // Determina o número de horas trabalhadas, conforme o tipo de contrato.
+
 function tipoContrato() {
   if (contratoFull.checked) {
     horasTrabalhadasBox.classList.add("hide");
@@ -129,13 +170,14 @@ function tipoContrato() {
     horasTrabalhadasBox.classList.remove("hide");
   }
 }
+
 //Calcula o valor por hora trabalhada (a fórmula é: (Remuneração base Mensal x 12)/(52 x Numero de horas trabalhadas semanalmente))
 
 function valorHora(vencBase, horasTrabalhadas) {
   const base = parseFloat(vencBase);
   const horasSemana = contratoFull.checked ? 40 : parseFloat(horasTrabalhadas);
   const precoHora = (base * 12) / (52 * horasSemana);
-  
+
   return precoHora;
 }
 
@@ -146,11 +188,19 @@ function naoRemunerado(faltas, precoHora) {
   return naoRemunerado;
 }
 
-function vencLiquido(vencBase, duodecimos, naoRemunerado, comission, subsidio, totalHoras) {
+function vencLiquido(
+  vencBase,
+  duodecimos,
+  naoRemunerado,
+  comission,
+  subsidio,
+  totalHoras
+) {
   const vencBruto = (
     vencBase +
     duodecimos * 2 +
-    subsidio + totalHoras + 
+    subsidio +
+    totalHoras +
     comission -
     naoRemunerado
   ).toFixed(2);
@@ -185,20 +235,26 @@ calcBtn.addEventListener("click", (e) => {
   const subsidio = parseFloat(subsidioRecebido(vencBase.value));
   const horas = parseFloat(horasTrabalhadas.value);
   const custoHora = parseFloat(valorHora(base, horas));
-  
 
   const horas50Val = parseFloat(horas50.value);
   const horas75Val = parseFloat(horas75.value);
   const horas100Val = parseFloat(horas100.value);
 
-  const totalHoras = horasExtraordinarias(horas50Val, horas75Val, horas100Val, custoHora);
-  
+  const totalHoras = horasExtraordinarias(
+    horas50Val,
+    horas75Val,
+    horas100Val,
+    custoHora
+  );
+
   console.log(totalHoras);
   const duodec = parseFloat(duodecimos(base));
   const naoRem = parseFloat(naoRemunerado(absences, custoHora));
 
   const vencBruto = parseFloat(
-    (base + duodec * 2 + commission + totalHoras + subsidio - absences).toFixed(2)
+    (base + duodec * 2 + commission + totalHoras + subsidio - absences).toFixed(
+      2
+    )
   );
   console.log(vencBruto);
 
@@ -206,15 +262,20 @@ calcBtn.addEventListener("click", (e) => {
     (item) => vencBruto > item.min && vencBruto <= item.max
   );
 
-
   const irs = taxBracket ? vencBruto * taxBracket.taxa : 0;
 
   const segSocial = vencBruto * 0.11;
 
   const totalDesc = (irs + segSocial).toFixed(2);
 
-
-  const vencFinal = vencLiquido(base, duodec, naoRem, commission, subsidio, totalHoras);
+  const vencFinal = vencLiquido(
+    base,
+    duodec,
+    naoRem,
+    commission,
+    subsidio,
+    totalHoras
+  );
 
   duodecimoNatal.textContent = duodec;
   duodecimoFerias.textContent = duodec;
@@ -260,5 +321,3 @@ backBtn.addEventListener("click", () => {
 clearBtn.addEventListener("click", () => {
   clearAll();
 });
-
-// adicionar lógica para cálculo de valor/hora e horas extra.
