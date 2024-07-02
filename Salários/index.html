@@ -23,6 +23,36 @@
               />
             </div>
             <div class="form-control">
+              <label class="turnos">Trabalho por Turnos ?</label>
+              <div id="confirma-duodecimos">
+                <div class="sim">
+                  <label for="sim">Sim</label>
+                  <input
+                    type="radio"
+                    name="turnos"
+                    id="por-turnos"                    
+                  />
+                </div>
+                <div class="nao">
+                  <label for="nao">Não</label>
+                  <input
+                    type="radio"
+                    name="turnos"
+                    id="sem-turnos"                    
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-control hide" id="horas-noturnas">
+              <label for="horas-noturnas-trabalhadas">Horas Noturnas Trabalhadas:</label>
+              <input
+                type="number"
+                name="horas-noturnas"
+                id="horas-noturnas-trabalhadas"
+                placeholder="Horas Noturnas Trabalhadas"                
+              />
+            </div>
+            <div class="form-control">
               <label class="contrato">Tipo de Contrato:</label>
               <div id="confirma-duodecimos">
                 <div class="sim">
@@ -49,7 +79,7 @@
                 type="number"
                 name="horas"
                 id="horas-semanais-trabalhadas"
-                placeholder="Horas Semanais Trabalhadas"
+                placeholder="Horas Semanais Trabalhadas"                
               />
             </div>
             <div class="form-control" id="horas-extra">
@@ -167,6 +197,7 @@
         <div id="cabecalhos">
           <p id="bruto">O Seu Vencimento Bruto é: <span></span>€</p>
         <p id="extra">O Seu Total de Horas Extra é: <span></span>€</p>
+        <p id="Noturnas">O Seu Total de Horas Noturnas é: <span></span>€</p>
         <p id="duodecimoN">
           O seu Duodécimo do Subsídio de Natal é: <span></span>€
         </p>

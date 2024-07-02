@@ -15,6 +15,8 @@ const taxdata = [
 ];
 
 // Seleção de Elementos
+
+const form = document.querySelector("#salary-form");
 const vencBase = document.querySelector("#base");
 const horasTrabalhadas = document.querySelector("#horas-semanais-trabalhadas");
 const horasTrabalhadasBox = document.querySelector("#horas-semanais");
@@ -35,6 +37,9 @@ const formHoras = document.querySelector("#horas-mes");
 const horas50 = document.querySelector("#horas50");
 const horas75 = document.querySelector("#horas75");
 const horas100 = document.querySelector("#horas100");
+const horasNoturnas = document.querySelector("#horas-noturnas-trabalhadas");
+const horasNoturnasBox = document.querySelector("#horas-noturnas");
+const noturnas = document.querySelector("#Noturnas span");
 
 const bruto = document.querySelector("#bruto span");
 const extra = document.querySelector("#extra span");
@@ -43,6 +48,8 @@ const duodecimoNatal = document.querySelector("#duodecimoN span");
 const duodecimoFerias = document.querySelector("#duodecimoF span");
 const duodecimoNatalFull = document.querySelector("#duodecimoN");
 const duodecimoFeriasFull = document.querySelector("#duodecimoF");
+const porTurnos = document.querySelector("#por-turnos");
+const semTurnos = document.querySelector("#sem-turnos");
 
 const descIrs = document.querySelector("#descIrs");
 const descSegSocial = document.querySelector("#seg-social");
@@ -95,19 +102,19 @@ function validateNumberInput(input) {
 }
 
 // Previne e, E, +, - de serem escritos no campo
-numberInputs.forEach(input => {
+numberInputs.forEach((input) => {
   // Prevent e, E, +, - characters from being typed
-  input.addEventListener('keydown', function(event) {
-    if (['e', 'E', '+', '-'].includes(event.key)) {
+  input.addEventListener("keydown", function (event) {
+    if (["e", "E", "+", "-"].includes(event.key)) {
       event.preventDefault();
     }
   });
-   // adicionados event listeners para eventos de input e paste para validar os campos de input com type number
-   input.addEventListener('input', function() {
+  // adicionados event listeners para eventos de input e paste para validar os campos de input com type number
+  input.addEventListener("input", function () {
     validateNumberInput(this);
   });
 
-  input.addEventListener('paste', function() {
+  input.addEventListener("paste", function () {
     validateNumberInput(this);
   });
 });
@@ -164,10 +171,12 @@ function horasExtraordinarias(horas50, horas75, horas100, precoHora) {
 function tipoContrato() {
   if (contratoFull.checked) {
     horasTrabalhadasBox.classList.add("hide");
+    horasTrabalhadas.removeAttribute("required");
   }
 
   if (!contratoFull.checked && contratoPart.checked) {
     horasTrabalhadasBox.classList.remove("hide");
+    horasTrabalhadas.setAttribute("required", "required");
   }
 }
 
@@ -179,6 +188,24 @@ function valorHora(vencBase, horasTrabalhadas) {
   const precoHora = (base * 12) / (52 * horasSemana);
 
   return precoHora;
+}
+
+//Calcula valor das horas noturnas
+
+function horasNoite(horasNoturnas) {
+  // Valor das horas noturnas tem em média acréscimo de 25%
+  let nightHours = 0;
+  if (porTurnos.checked && !semTurnos.checked) {
+    horasNoturnasBox.classList.remove("hide");
+    nightHours = horasNoturnas * 1.25;
+  }
+
+  if (!porTurnos.checked && semTurnos.checked) {
+    horasNoturnasBox.classList.add("hide");
+    nightHours = 0;
+  }
+
+  return nightHours;
 }
 
 // Calcula o valor a deduzir das faltas do funcionário
@@ -194,13 +221,15 @@ function vencLiquido(
   naoRemunerado,
   comission,
   subsidio,
-  totalHoras
+  totalHoras,
+  nightHours
 ) {
   const vencBruto = (
     vencBase +
     duodecimos * 2 +
     subsidio +
     totalHoras +
+    nightHours +
     comission -
     naoRemunerado
   ).toFixed(2);
@@ -217,65 +246,38 @@ function vencLiquido(
   return liquido;
 }
 
-function clearAll() {
-  vencBase.value = "";
-  comission.value = "";
-  faltas.value = "";
-}
-
-//Eventos
-calcBtn.addEventListener("click", (e) => {
-  e.preventDefault();
+function calcular() {
   if (!vencBase.value || !comission.value || !faltas.value) return;
-  calcContainer.classList.add("hide");
-  result.classList.remove("hide");
+
   const base = parseFloat(vencBase.value);
   const commission = parseFloat(comission.value);
   const absences = parseFloat(faltas.value);
   const subsidio = parseFloat(subsidioRecebido(vencBase.value));
   const horas = parseFloat(horasTrabalhadas.value);
   const custoHora = parseFloat(valorHora(base, horas));
+  const horasNoiteVal = parseFloat(horasNoturnas.value);
 
   const horas50Val = parseFloat(horas50.value);
   const horas75Val = parseFloat(horas75.value);
   const horas100Val = parseFloat(horas100.value);
 
-  const totalHoras = horasExtraordinarias(
-    horas50Val,
-    horas75Val,
-    horas100Val,
-    custoHora
-  );
+  const totalHoras = horasExtraordinarias(horas50Val, horas75Val, horas100Val, custoHora);
 
-  console.log(totalHoras);
+  const nightHours = horasNoite(horasNoiteVal); // Properly calculate night hours
+
   const duodec = parseFloat(duodecimos(base));
   const naoRem = parseFloat(naoRemunerado(absences, custoHora));
 
   const vencBruto = parseFloat(
-    (base + duodec * 2 + commission + totalHoras + subsidio - absences).toFixed(
-      2
-    )
-  );
-  console.log(vencBruto);
-
-  const taxBracket = taxdata.find(
-    (item) => vencBruto > item.min && vencBruto <= item.max
+    (base + duodec * 2 + commission + totalHoras + nightHours + subsidio - absences).toFixed(2)
   );
 
+  const taxBracket = taxdata.find((item) => vencBruto > item.min && vencBruto <= item.max);
   const irs = taxBracket ? vencBruto * taxBracket.taxa : 0;
-
   const segSocial = vencBruto * 0.11;
 
   const totalDesc = (irs + segSocial).toFixed(2);
-
-  const vencFinal = vencLiquido(
-    base,
-    duodec,
-    naoRem,
-    commission,
-    subsidio,
-    totalHoras
-  );
+  const vencFinal = vencLiquido(base, duodec, naoRem, commission, subsidio, totalHoras, nightHours);
 
   duodecimoNatal.textContent = duodec;
   duodecimoFerias.textContent = duodec;
@@ -287,6 +289,28 @@ calcBtn.addEventListener("click", (e) => {
   descSegSocial.textContent = segSocial.toFixed(2);
   descPorFaltas.textContent = naoRem.toFixed(2);
   subsidioCompleto.textContent = subsidio.toFixed(2);
+  noturnas.textContent = nightHours.toFixed(2);
+}
+
+function clearAll() {
+  vencBase.value = "";
+  comission.value = "";
+  faltas.value = "";
+}
+
+//Eventos
+calcBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  //Verificar validade do formulário
+  if (form.checkValidity()) {
+    calcContainer.classList.add("hide");
+    result.classList.remove("hide");
+    calcular();
+  } else {
+    //faz foco no campo required.
+    form.reportValidity();
+  }
 });
 
 radioBtnNo.addEventListener("change", () => {
@@ -297,13 +321,13 @@ radioBtnYes.addEventListener("change", () => {
   duodecimos(vencBase);
 });
 
-contratoFull.addEventListener("change", () => {
-  tipoContrato();
-});
+contratoFull.addEventListener("change", tipoContrato);
 
-contratoPart.addEventListener("change", () => {
-  tipoContrato();
-});
+contratoPart.addEventListener("change", tipoContrato);
+
+semTurnos.addEventListener("change", horasNoite);
+
+porTurnos.addEventListener("change", horasNoite);
 
 fezHoras.addEventListener("change", () => {
   toggleHoras();
