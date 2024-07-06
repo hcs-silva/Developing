@@ -22,11 +22,10 @@ const horasTrabalhadas = document.querySelector("#horas-semanais-trabalhadas");
 const horasTrabalhadasBox = document.querySelector("#horas-semanais");
 const comission = document.querySelector("#comission");
 const faltas = document.querySelector("#faltas");
-const calcBtn = document.querySelector("#calc-btn");
+
 const result = document.querySelector("#result-container");
 const calcContainer = document.querySelector("#calc-container");
-const backBtn = document.querySelector("#back-btn");
-const clearBtn = document.querySelector("#clear-btn");
+
 const radioBtnNo = document.querySelector("#nao-duodecimos");
 const radioBtnYes = document.querySelector("#duodecimos");
 const subsidioPago = document.querySelector("#pago");
@@ -62,6 +61,21 @@ const subsidioCompletoBox = document.querySelector("#subsidioCompleto");
 const contratoFull = document.querySelector("#full-time");
 const contratoPart = document.querySelector("#part-time");
 const numberInputs = document.querySelectorAll('input[type="number"]');
+
+//Seleção de páginas
+
+const pageOne = document.querySelector("#page-one");
+const pageTwo = document.querySelector("#page-two");
+const pageThree = document.querySelector("#page-three");
+
+// Seleção de Botões
+
+const calcBtn = document.querySelector("#calc-btn");
+const calcBtnPageOne = document.querySelector("#calc-btn-pageOne");
+const calcBtnPageTwo = document.querySelector("#calc-btn-pageTwo");
+const backBtn = document.querySelector("#back-btn");
+const backBtnPageTwo = document.querySelector("#back-btn-pageTwo");
+const clearBtn = document.querySelector("#clear-btn");
 
 // Funções
 function duodecimos(vencBase) {
@@ -345,3 +359,11 @@ backBtn.addEventListener("click", () => {
 clearBtn.addEventListener("click", () => {
   clearAll();
 });
+
+
+calcBtnPageOne.addEventListener("click", (e) => {
+  e.preventDefault();
+    pageOne.classList.add("hide");
+    pageTwo.classList.remove("hide");
+})
+

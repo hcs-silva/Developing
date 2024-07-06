@@ -1,0 +1,159 @@
+<div class="form-inputs">
+  <div class="form-control">
+    <label for="base">Vencimento Base:</label>
+    <input type="number" name="base" id="base" placeholder="Vencimento Base" />
+  </div>
+  <div class="form-control">
+    <label class="turnos">Trabalho por Turnos ?</label>
+    <div id="confirma-duodecimos">
+      <div class="sim">
+        <label for="sim">Sim</label>
+        <input type="radio" name="turnos" id="por-turnos" />
+      </div>
+      <div class="nao">
+        <label for="nao">Não</label>
+        <input type="radio" name="turnos" id="sem-turnos" />
+      </div>
+    </div>
+  </div>
+  <div class="form-control hide" id="horas-noturnas">
+    <label for="horas-noturnas-trabalhadas">Horas Noturnas Trabalhadas:</label>
+    <input
+      type="number"
+      name="horas-noturnas"
+      id="horas-noturnas-trabalhadas"
+      placeholder="Horas Noturnas Trabalhadas"
+    />
+  </div>
+  <div class="form-control">
+    <label class="subsidioAlim">Recebe Subsidio de Alimentação ?</label>
+    <div id="confirma-duodecimos">
+      <div class="sim">
+        <label for="sim">Sim</label>
+        <input type="radio" name="subsidio-alim" id="recebe" />
+      </div>
+      <div class="nao">
+        <label for="nao">Não</label>
+        <input type="radio" name="subsidio-alim" id="nao-recebe" />
+      </div>
+    </div>
+  </div>
+  <div class="form-control">
+    <label class="subsidioCartao">Em Cartão Refeição ou Dinheiro ?</label>
+    <div id="confirma-duodecimos">
+      <div class="sim">
+        <label for="sim">Cartão Refeição</label>
+        <input type="radio" name="subsidio-alim" id="euroTicket" />
+      </div>
+      <div class="nao">
+        <label for="nao">Dinheiro</label>
+        <input type="radio" name="subsidio-alim" id="money" />
+      </div>
+    </div>
+  </div>
+
+  <!--Página 2-->
+  <div class="form-control">
+    <label class="contrato">Tipo de Contrato:</label>
+    <div id="confirma-duodecimos">
+      <div class="sim">
+        <label for="sim">Full-Time</label>
+        <input type="radio" name="time" id="full-time" />
+      </div>
+      <div class="nao">
+        <label for="nao">Part-Time</label>
+        <input type="radio" name="time" id="part-time" />
+      </div>
+    </div>
+  </div>
+  <div class="form-control hide" id="horas-semanais">
+    <label for="horas-semanais-trabalhadas">Horas Semanais Trabalhadas:</label>
+    <input
+      type="number"
+      name="horas"
+      id="horas-semanais-trabalhadas"
+      placeholder="Horas Semanais Trabalhadas"
+    />
+  </div>
+  <div class="form-control" id="horas-extra">
+    <label for="horas">Horas Extra?</label>
+    <div id="confirma-horas">
+      <div class="sim">
+        <label for="sim">Sim</label>
+        <input type="radio" name="horas" id="fez" />
+      </div>
+      <div class="nao">
+        <label for="nao">Não</label>
+        <input type="radio" name="horas" id="nao-fez" />
+      </div>
+    </div>
+  </div>
+  <div class="form-control hide" id="horas-mes">
+    <label for="horas50">Horas 50%</label>
+    <input
+      type="number"
+      name="horas50"
+      id="horas50"
+      placeholder="Horas Extra 50%"
+    />
+    <label for="horas50">Horas 75%</label>
+    <input
+      type="number"
+      name="horas50"
+      id="horas75"
+      placeholder="Horas Extra 75%"
+    />
+    <label for="horas100">Horas 100%</label>
+    <input
+      type="number"
+      name="horas50"
+      id="horas100"
+      placeholder="Horas Extra 100%"
+    />
+  </div>
+
+  <!--Página 3-->
+  <div class="form-control">
+    <label class="legenda">Subsídios em Duodécimos ?</label>
+    <div id="confirma-duodecimos">
+      <div class="sim">
+        <label for="sim">Sim</label>
+        <input type="radio" name="radio" id="duodecimos" />
+      </div>
+      <div class="nao">
+        <label for="nao">Não</label>
+        <input type="radio" name="radio" id="nao-duodecimos" />
+      </div>
+    </div>
+  </div>
+  <div class="form-control hide" id="confirmacao">
+    <label class="legenda">Recebeu Subsídio ?</label>
+    <div id="confirma-subsidio">
+      <div class="pago">
+        <label for="pago">Sim</label>
+        <input type="radio" name="checkbox" id="pago" />
+      </div>
+      <div class="confirma-subsidio">
+        <label for="nao-pago">Não</label>
+        <input type="radio" name="checkbox" id="nao-pago" />
+      </div>
+    </div>
+  </div>
+  <div class="form-control">
+    <label for="comission">Comissões:</label>
+    <input
+      type="number"
+      name="comission"
+      id="comission"
+      placeholder="Comissões"
+    />
+  </div>
+  <div class="form-control">
+    <label for="faltas">Faltas (Em Horas):</label>
+    <input type="number" name="faltas" id="faltas" placeholder="Faltas" />
+  </div>
+</div>
+<div class="action-control">
+  <button type="submit" id="calc-btn">Calcular</button>
+  <button type="submit" id="clear-btn">Limpar</button>
+</div>
