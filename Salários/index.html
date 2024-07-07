@@ -58,15 +58,15 @@
                 <div id="confirma-duodecimos">
                   <div class="sim">
                     <label for="sim">Cartão Refeição</label>
-                    <input type="radio" name="subsidio-alim" id="euroTicket" />
+                    <input type="radio" name="tipo-pagamento" id="euroTicket" />
                   </div>
                   <div class="nao">
                     <label for="nao">Dinheiro</label>
-                    <input type="radio" name="subsidio-alim" id="money" />
+                    <input type="radio" name="tipo-pagamento" id="money" />
                   </div>
                 </div>
               </div>
-              <div class="form-control">
+              <div class="form-control hide" id="diarioAlimBox">
                 <label for="diarioAlim">Valor Diário do Subsidio de Alimentação:</label>
                 <input type="number" name="diarioAlim" id="diarioAlim" placeholder="Valor Diário do Subsidio de Alimentação" />
               </div>
@@ -182,6 +182,7 @@
               </div>
               <div class="action-control">
                 <button type="submit" id="calc-btn">Calcular</button>
+                <button type="submit" id="back-btn">Voltar</button>
                 <button type="submit" id="clear-btn">Limpar</button>
               </div>
             </div>
@@ -191,17 +192,17 @@
       <div id="result-container" class="hide">
         <div id="cabecalhos">
           <p id="bruto">O Seu Vencimento Bruto é: <span></span>€</p>
-        <p id="extra">O Seu Total de Horas Extra é: <span></span>€</p>
-        <p id="Noturnas">O Seu Total de Horas Noturnas é: <span></span>€</p>
-        <p id="duodecimoN">
+          <p id="extra">O Seu Total de Horas Extra é: <span></span>€</p>
+          <p id="Noturnas" class="hide">O Seu Total de Horas Noturnas é: <span></span>€</p>
+          <p id="duodecimoN">
           O seu Duodécimo do Subsídio de Natal é: <span></span>€
-        </p>
-        <p id="duodecimoF">
+          </p>
+          <p id="duodecimoF">
           O seu Duodécimo do Subsídio de Férias é: <span></span>€
-        </p>
-        <p id="subsidioCompleto" class="hide">
+          </p>
+          <p id="subsidioCompleto" class="hide">
           O valor do seu Subsídio é de: <span></span>€
-       </p>
+          </p>
         </div>
 
         <div id="pay-table">
@@ -223,7 +224,10 @@
             <p><span id="liquido"></span>€</p>
           </div>
         </div>
-        <button type="submit" id="back-btn">Voltar</button>
+        <div class="action-control">
+          <button type="submit" id="back-btn-result">Voltar</button>
+          <button type="submit" id="restart">Recomeçar</button>
+        </div>
       </div>
     </div>
   </body>
