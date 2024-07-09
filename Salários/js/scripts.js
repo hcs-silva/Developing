@@ -57,6 +57,8 @@ const totalDescontos = document.querySelector("#total-descontos");
 const liquido = document.querySelector("#liquido");
 const subsidioCheck = document.querySelector("#confirmacao");
 const subsidioCompleto = document.querySelector("#subsidioCompleto span");
+const totalSubAlim = document.querySelector("#subsidioAlimentacao span");
+const subsidioAlimIrs = document.querySelector("#sibsidioAlimentacaoIrs span");
 const subsidioCompletoBox = document.querySelector("#subsidioCompleto");
 const contratoFull = document.querySelector("#full-time");
 const contratoPart = document.querySelector("#part-time");
@@ -160,6 +162,15 @@ function subsidioRecebido(vencBase) {
 
   return subsidio;
 }
+
+function calcAlim(valorAlim, faltas) {
+  let subsidioAlimFinal;
+  if(valorAlim <= 6) {
+    subsidioAlimFinal = (valorAlim * 22)* 0.11
+  } 
+
+
+} 
 
 // Toggle do campo de valor diario do subsidio de alimentação
 
