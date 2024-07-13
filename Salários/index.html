@@ -53,11 +53,11 @@
                   </div>
                 </div>
               </div>
-              <div class="form-control">
+              <div class="form-control hide" id="tipo-pagamento">
                 <label class="subsidioCartao">Em Cartão Refeição ou Dinheiro ?</label>
                 <div id="confirma-duodecimos">
                   <div class="sim">
-                    <label for="sim">Cartão Refeição</label>
+                    <label for="sim">Cartão</label>
                     <input type="radio" name="tipo-pagamento" id="euroTicket" />
                   </div>
                   <div class="nao">
@@ -191,8 +191,8 @@
       </div>
       <div id="result-container" class="hide">
         <div id="cabecalhos">
-          <p id="bruto">O Seu Vencimento Bruto é: <span></span>€</p>
-          <p id="extra">O Seu Total de Horas Extra é: <span></span>€</p>
+          <p id="bruto"></p>
+          <p id="extra" class="hide">O Seu Total de Horas Extra é: <span></span>€</p>
           <p id="Noturnas" class="hide">O Seu Total de Horas Noturnas é: <span></span>€</p>
           <p id="duodecimoN">
           O seu Duodécimo do Subsídio de Natal é: <span></span>€
@@ -240,4 +240,4 @@
 </html>
 
 
-<!--adicionar display para valor calculado de faltas a descontar-->
+

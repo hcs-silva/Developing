@@ -40,7 +40,7 @@ const horasNoturnas = document.querySelector("#horas-noturnas-trabalhadas");
 const horasNoturnasBox = document.querySelector("#horas-noturnas");
 const noturnas = document.querySelector("#Noturnas span");
 
-const bruto = document.querySelector("#bruto span");
+const bruto = document.querySelector("#bruto");
 const extra = document.querySelector("#extra span");
 const extraBox = document.querySelector("#extra");
 const duodecimoNatal = document.querySelector("#duodecimoN span");
@@ -67,6 +67,9 @@ const valorAlim = document.querySelector("#diarioAlim");
 const recebeSubAlim = document.querySelector("#recebe");
 const naoRecebeSubAlim = document.querySelector("#nao-recebe");
 const valorAlimBox = document.querySelector("#diarioAlimBox");
+const ticket = document.querySelector("#euroTicket");
+const dinheiro = document.querySelector("#money");
+const tipoPagamento = document.querySelector("#tipo-pagamento");
 
 //Seleção de páginas
 
@@ -102,7 +105,7 @@ function duodecimos(vencBase) {
     duodecimoFeriasFull.classList.remove("hide");
     duodecimoNatalFull.classList.remove("hide");
   }
-
+  console.log(duodecimos);
   return duodecimos;
 }
 
@@ -159,28 +162,56 @@ function subsidioRecebido(vencBase) {
       subsidioCompletoBox.classList.add("hide");
     }
   }
-
+  console.log(subsidio)
   return subsidio;
 }
 
-function calcAlim(valorAlim, faltas) {
-  let subsidioAlimFinal;
-  if(valorAlim <= 6) {
-    subsidioAlimFinal = (valorAlim * 22)* 0.11
-  } 
+//Calcula o proporcional do subsidio de alimentação para part-times inferiores a 5 horas diárias.
+function proporcionalTempoTrabalhado(horasTrabalhadas, valorAlim) {
+  const horasDiarias = horasTrabalhadas / 5;
+  let alimFinal;
+  if (contratoPart.checked && horasDiarias < 5) {
+    alimFinal = 0;
+  }
 
+  if (contratoPart.checked && horasDiarias >= 5) {
+    alimFinal = (horasDiarias / 8) * valorAlim;
+  }
+  console.log(alimFinal)
+  return alimFinal;
+}
 
-} 
+function calcAlim(valorAlim, faltas, alimFinal) {
+  const faltasEmDias = (faltas / 8).toFixed(1);
+  
+  let alimParaDescontos = 0;
+
+  if (alimFinal === 0) {
+    alimParaDescontos = 0;
+  } else {
+    if (dinheiro.checked && valorAlim > 6) {
+      alimParaDescontos = (valorAlim - 6) * (22 - faltasEmDias);
+    }
+
+    if (ticket.checked && valorAlim > 9) {
+      alimParaDescontos = (valorAlim - 9) * (22 - faltasEmDias);
+    }
+  }
+  console.log(alimParaDescontos)
+  return {alimParaDescontos, faltasEmDias};
+}
 
 // Toggle do campo de valor diario do subsidio de alimentação
 
 function toggleAlim() {
   if (recebeSubAlim.checked && !naoRecebeSubAlim.checked) {
     valorAlimBox.classList.remove("hide");
+    tipoPagamento.classList.remove("hide");
   }
 
   if (!recebeSubAlim.checked && naoRecebeSubAlim.checked) {
     valorAlimBox.classList.add("hide");
+    tipoPagamento.classList.add("hide");
   }
 }
 
@@ -202,7 +233,11 @@ function horasExtraordinarias(horas50, horas75, horas100, precoHora) {
   if (!fezHoras.checked && naoFezHoras.checked) {
     totalHoras = 0;
     extraBox.classList.add("hide");
-  } else {
+  } 
+  
+  if (fezHoras.checked && !naoFezHoras.checked) {
+    
+    extraBox.classList.remove("hide")
     totalHoras =
       horas50 * (precoHora * 1.5) +
       horas75 * (precoHora * 1.75) +
@@ -232,7 +267,7 @@ function valorHora(vencBase, horasTrabalhadas) {
   const base = parseFloat(vencBase);
   const horasSemana = contratoFull.checked ? 40 : parseFloat(horasTrabalhadas);
   const precoHora = (base * 12) / (52 * horasSemana);
-
+  console.log(precoHora)
   return precoHora;
 }
 
@@ -252,14 +287,14 @@ function horasNoite(horasNoturnas) {
     noturnas.classList.add("hide");
     nightHours = 0;
   }
-
+  console.log(nightHours)
   return nightHours;
 }
 
 // Calcula o valor a deduzir das faltas do funcionário
 function naoRemunerado(faltas, precoHora) {
-  const naoRemunerado = (faltas * precoHora).toFixed(2);
-
+  const naoRemunerado = parseFloat((faltas * precoHora).toFixed(2));
+  console.log(naoRemunerado)
   return naoRemunerado;
 }
 
@@ -270,7 +305,8 @@ function vencLiquido(
   comission,
   subsidio,
   totalHoras,
-  nightHours
+  nightHours,
+  alimParaDescontos
 ) {
   const vencBruto = (
     vencBase +
@@ -278,6 +314,7 @@ function vencLiquido(
     subsidio +
     totalHoras +
     nightHours +
+    alimParaDescontos +
     comission -
     naoRemunerado
   ).toFixed(2);
@@ -304,19 +341,23 @@ function calcular() {
   const horas = parseFloat(horasTrabalhadas.value);
   const custoHora = parseFloat(valorHora(base, horas));
   const horasNoiteVal = parseFloat(horasNoturnas.value);
+  const totalAlim = parseFloat(valorAlim * (22 - faltasEmDias));
 
   const horas50Val = parseFloat(horas50.value);
   const horas75Val = parseFloat(horas75.value);
   const horas100Val = parseFloat(horas100.value);
 
-  const totalHoras = horasExtraordinarias(
+  const totalHoras = parseFloat(horasExtraordinarias(
     horas50Val,
     horas75Val,
     horas100Val,
     custoHora
-  );
+  ));
 
-  const nightHours = horasNoite(horasNoiteVal); // Properly calculate night hours
+  const valorAlimValue = parseFloat(valorAlim.value);
+  const alimDesc = parseFloat(calcAlim(valorAlimValue, absences, horas));
+
+  const nightHours = parseFloat(horasNoite(horasNoiteVal)); // Properly calculate night hours
 
   const duodec = parseFloat(duodecimos(base));
   const naoRem = parseFloat(naoRemunerado(absences, custoHora));
@@ -328,11 +369,12 @@ function calcular() {
       commission +
       totalHoras +
       nightHours +
+      alimDesc +
       subsidio -
       absences
     ).toFixed(2)
   );
-
+  console.log(vencBruto)
   const taxBracket = taxdata.find(
     (item) => vencBruto > item.min && vencBruto <= item.max
   );
@@ -347,12 +389,13 @@ function calcular() {
     commission,
     subsidio,
     totalHoras,
-    nightHours
+    nightHours,
+    alimDesc
   );
 
   duodecimoNatal.textContent = duodec;
   duodecimoFerias.textContent = duodec;
-  bruto.textContent = vencBruto;
+  bruto.textContent = `O seu Vencimento Bruto é ${parseFloat(vencBruto)} €`;
   extra.textContent = totalHoras.toFixed(2);
   liquido.textContent = vencFinal;
   totalDescontos.textContent = totalDesc;
@@ -361,6 +404,7 @@ function calcular() {
   descPorFaltas.textContent = naoRem.toFixed(2);
   subsidioCompleto.textContent = subsidio.toFixed(2);
   noturnas.textContent = nightHours.toFixed(2);
+  totalSubAlim.textContent = `O valor do seu Subsídio de Alimentação é de: ${totalAlim} €`
 }
 
 function clearAll() {
