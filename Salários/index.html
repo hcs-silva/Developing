@@ -13,6 +13,8 @@
         <h2>Calculadora de Salários</h2>
         <form id="salary-form">
           <div class="form-inputs">
+
+
             <div id="page-one">
               <div class="form-control">
                 <label for="base">Vencimento Base:</label>
@@ -75,6 +77,8 @@
                 <button type="submit" id="clear-btn-pageOne">Limpar</button>
               </div>
             </div>
+
+
             <div id="page-two" class="hide">
               <div class="form-control">
                 <label class="contrato">Tipo de Contrato:</label>
@@ -95,7 +99,7 @@
                   type="number"
                   name="horas"
                   id="horas-semanais-trabalhadas"
-                  placeholder="Horas Semanais Trabalhadas"
+                  placeholder="Horas Semanais Trabalhadas"                  
                 />
               </div>
               <div class="form-control" id="horas-extra">
@@ -140,6 +144,8 @@
                 <button type="submit" id="clear-btn-pageTwo">Limpar</button>
               </div>
             </div>
+
+
             <div id="page-three" class="hide">
               <div class="form-control">
                 <label class="legenda">Subsídios em Duodécimos ?</label>
@@ -192,42 +198,32 @@
       <div id="result-container" class="hide">
         <div id="cabecalhos">
           <p id="bruto"></p>
-          <p id="extra" class="hide">O Seu Total de Horas Extra é: <span></span>€</p>
-          <p id="Noturnas" class="hide">O Seu Total de Horas Noturnas é: <span></span>€</p>
-          <p id="duodecimoN">
-          O seu Duodécimo do Subsídio de Natal é: <span></span>€
-          </p>
-          <p id="duodecimoF">
-          O seu Duodécimo do Subsídio de Férias é: <span></span>€
-          </p>
-          <p id="subsidioCompleto" class="hide">
-          O valor do seu Subsídio é de: <span></span>€
-          </p>
-          <p id="subsidioAlimentacao" class="hide">
-            O valor do seu Subsídio de Alimentação é de: <span></span>€
-          </p>
-          <p id="subsidioAlimentacaoIrs" class="hide">
-            O valor do seu Subsídio de Alimentação sujeito a IRS é de: <span></span>€
-          </p>
+          <p id="extra" class="hide"></p>
+          <p id="Noturnas" class="hide"></p>
+          <p id="duodecimoN"></p>
+          <p id="duodecimoF"></p>
+          <p id="subsidioCompleto" class="hide"></p>
+          <p id="subsidioAlimentacao" class="hide"></p>
+          <p id="subsidioAlimentacaoIrs" class="hide"></p>
         </div>
 
         <div id="pay-table">
           <div class="pay-header">
             <h2>Descontos IRS</h2>
             <br />
-            <p><span id="descIrs"></span>€</p>
+            <p id="descIrs"></p>
             <h2>Descontos Segurança Social</h2>
             <br />
-            <p><span id="seg-social"></span>€</p>
+            <p id="seg-social"></p>
             <h2>Descontos por Faltas</h2>
             <br />
-            <p><span id="por-faltas"></span>€</p>
+            <p id="por-faltas"></p>
             <h2>Total de Descontos</h2>
             <br />
-            <p><span id="total-descontos"></span>€</p>
+            <p id="total-descontos"></p>
             <h2>Vencimento Líquido</h2>
             <br />
-            <p><span id="liquido"></span>€</p>
+            <p id="liquido"></p>
           </div>
         </div>
         <div class="action-control">

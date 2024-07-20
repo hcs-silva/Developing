@@ -38,15 +38,13 @@ const horas75 = document.querySelector("#horas75");
 const horas100 = document.querySelector("#horas100");
 const horasNoturnas = document.querySelector("#horas-noturnas-trabalhadas");
 const horasNoturnasBox = document.querySelector("#horas-noturnas");
-const noturnas = document.querySelector("#Noturnas span");
+const noturnas = document.querySelector("#Noturnas");
 
 const bruto = document.querySelector("#bruto");
-const extra = document.querySelector("#extra span");
-const extraBox = document.querySelector("#extra");
-const duodecimoNatal = document.querySelector("#duodecimoN span");
-const duodecimoFerias = document.querySelector("#duodecimoF span");
-const duodecimoNatalFull = document.querySelector("#duodecimoN");
-const duodecimoFeriasFull = document.querySelector("#duodecimoF");
+const extra = document.querySelector("#extra");
+const extraBox = document.querySelector("#extra-box");
+const duodecimoNatal = document.querySelector("#duodecimoN");
+const duodecimoFerias = document.querySelector("#duodecimoF");
 const porTurnos = document.querySelector("#por-turnos");
 const semTurnos = document.querySelector("#sem-turnos");
 
@@ -56,10 +54,9 @@ const descPorFaltas = document.querySelector("#por-faltas");
 const totalDescontos = document.querySelector("#total-descontos");
 const liquido = document.querySelector("#liquido");
 const subsidioCheck = document.querySelector("#confirmacao");
-const subsidioCompleto = document.querySelector("#subsidioCompleto span");
-const totalSubAlim = document.querySelector("#subsidioAlimentacao span");
-const subsidioAlimIrs = document.querySelector("#sibsidioAlimentacaoIrs span");
-const subsidioCompletoBox = document.querySelector("#subsidioCompleto");
+const subsidioCompleto = document.querySelector("#subsidioCompleto");
+const totalSubAlim = document.querySelector("#subsidioAlimentacao");
+const subsidioAlimIrs = document.querySelector("#subsidioAlimentacaoIrs");
 const contratoFull = document.querySelector("#full-time");
 const contratoPart = document.querySelector("#part-time");
 const numberInputs = document.querySelectorAll('input[type="number"]');
@@ -96,16 +93,16 @@ function duodecimos(vencBase) {
   const duodecimos = radioBtnNo.checked ? 0 : (vencBase / 12).toFixed(2);
   if (radioBtnNo.checked && !radioBtnYes.checked) {
     subsidioCheck.classList.remove("hide");
-    duodecimoFeriasFull.classList.add("hide");
-    duodecimoNatalFull.classList.add("hide");
+    duodecimoFerias.classList.add("hide");
+    duodecimoNatal.classList.add("hide");
   }
 
   if (!radioBtnNo.checked && radioBtnYes.checked) {
     subsidioCheck.classList.add("hide");
-    duodecimoFeriasFull.classList.remove("hide");
-    duodecimoNatalFull.classList.remove("hide");
+    duodecimoFerias.classList.remove("hide");
+    duodecimoNatal.classList.remove("hide");
   }
-  console.log(duodecimos);
+
   return duodecimos;
 }
 
@@ -152,24 +149,24 @@ function subsidioRecebido(vencBase) {
   let subsidio = subsidioPago.checked ? vencBase : 0;
   if (radioBtnYes.checked) {
     subsidio = 0;
-    subsidioCompletoBox.classList.add("hide");
+    subsidioCompleto.classList.add("hide");
   } else {
     if (subsidioPago.checked && !subsidioNaoPago.checked) {
-      subsidioCompletoBox.classList.remove("hide");
+      subsidioCompleto.classList.remove("hide");
     }
 
     if (!subsidioPago.checked && subsidioNaoPago.checked) {
-      subsidioCompletoBox.classList.add("hide");
+      subsidioCompleto.classList.add("hide");
     }
   }
-  console.log(subsidio)
+  console.log(subsidio);
   return subsidio;
 }
 
-//Calcula o proporcional do subsidio de alimentação para part-times inferiores a 5 horas diárias.
+//Calcula o proporcional do subsidio de alimentação para part-times iguais ou superiores a 5 horas diárias.
 function proporcionalTempoTrabalhado(horasTrabalhadas, valorAlim) {
   const horasDiarias = horasTrabalhadas / 5;
-  let alimFinal;
+  let alimFinal = 0;
   if (contratoPart.checked && horasDiarias < 5) {
     alimFinal = 0;
   }
@@ -177,18 +174,24 @@ function proporcionalTempoTrabalhado(horasTrabalhadas, valorAlim) {
   if (contratoPart.checked && horasDiarias >= 5) {
     alimFinal = (horasDiarias / 8) * valorAlim;
   }
-  console.log(alimFinal)
+
   return alimFinal;
 }
 
 function calcAlim(valorAlim, faltas, alimFinal) {
-  const faltasEmDias = (faltas / 8).toFixed(1);
-  
-  let alimParaDescontos = 0;
+  if (recebeSubAlim.checked && !naoRecebeSubAlim.checked) {
+    totalSubAlim.classList.remove("hide");
+    subsidioAlimIrs.classList.remove("hide");
+  }
 
-  if (alimFinal === 0) {
-    alimParaDescontos = 0;
-  } else {
+  if (!recebeSubAlim.checked && naoRecebeSubAlim.checked) {
+    totalSubAlim.classList.add("hide");
+    subsidioAlimIrs.classList.add("hide");
+  }
+  const faltasEmDias = (faltas / 8).toFixed(1);
+
+  let alimParaDescontos = 0;
+  if (contratoFull.checked) {
     if (dinheiro.checked && valorAlim > 6) {
       alimParaDescontos = (valorAlim - 6) * (22 - faltasEmDias);
     }
@@ -197,8 +200,22 @@ function calcAlim(valorAlim, faltas, alimFinal) {
       alimParaDescontos = (valorAlim - 9) * (22 - faltasEmDias);
     }
   }
-  console.log(alimParaDescontos)
-  return {alimParaDescontos, faltasEmDias};
+
+  if (contratoPart.checked) {
+    if (alimFinal > 0) {
+      if (dinheiro.checked && valorAlim > 6) {
+        alimParaDescontos = (valorAlim - 6) * (22 - faltasEmDias);
+      }
+
+      if (ticket.checked && valorAlim > 9) {
+        alimParaDescontos = (valorAlim - 9) * (22 - faltasEmDias);
+      }
+    } else {
+      alimParaDescontos = 0;
+    }
+  }
+  console.log(alimParaDescontos);
+  return alimParaDescontos;
 }
 
 // Toggle do campo de valor diario do subsidio de alimentação
@@ -232,12 +249,11 @@ function horasExtraordinarias(horas50, horas75, horas100, precoHora) {
   let totalHoras;
   if (!fezHoras.checked && naoFezHoras.checked) {
     totalHoras = 0;
-    extraBox.classList.add("hide");
-  } 
-  
+    extra.classList.add("hide");
+  }
+
   if (fezHoras.checked && !naoFezHoras.checked) {
-    
-    extraBox.classList.remove("hide")
+    extra.classList.remove("hide");
     totalHoras =
       horas50 * (precoHora * 1.5) +
       horas75 * (precoHora * 1.75) +
@@ -266,8 +282,8 @@ function tipoContrato() {
 function valorHora(vencBase, horasTrabalhadas) {
   const base = parseFloat(vencBase);
   const horasSemana = contratoFull.checked ? 40 : parseFloat(horasTrabalhadas);
-  const precoHora = (base * 12) / (52 * horasSemana);
-  console.log(precoHora)
+  const precoHora = parseFloat(((base * 12) / (52 * horasSemana)).toFixed(2));
+  console.log(precoHora);
   return precoHora;
 }
 
@@ -287,14 +303,14 @@ function horasNoite(horasNoturnas) {
     noturnas.classList.add("hide");
     nightHours = 0;
   }
-  console.log(nightHours)
-  return nightHours;
+  console.log(nightHours);
+  return isNaN(nightHours) ? 0 : nightHours;
 }
 
 // Calcula o valor a deduzir das faltas do funcionário
 function naoRemunerado(faltas, precoHora) {
   const naoRemunerado = parseFloat((faltas * precoHora).toFixed(2));
-  console.log(naoRemunerado)
+  console.log(naoRemunerado);
   return naoRemunerado;
 }
 
@@ -332,8 +348,6 @@ function vencLiquido(
 }
 
 function calcular() {
-  if (!vencBase.value || !comission.value || !faltas.value) return;
-
   const base = parseFloat(vencBase.value);
   const commission = parseFloat(comission.value);
   const absences = parseFloat(faltas.value);
@@ -341,23 +355,31 @@ function calcular() {
   const horas = parseFloat(horasTrabalhadas.value);
   const custoHora = parseFloat(valorHora(base, horas));
   const horasNoiteVal = parseFloat(horasNoturnas.value);
-  const totalAlim = parseFloat(valorAlim * (22 - faltasEmDias));
+  const faltasEmDias = parseFloat((absences / 8).toFixed(1));
+  const valorAlimValue = parseFloat(valorAlim.value);
+  const totalAlim = parseFloat(
+    contratoPart.checked
+      ? proporcionalTempoTrabalhado(horasTrabalhadas, valorAlimValue)
+      : valorAlimValue * (22 - faltasEmDias)
+  ).toFixed(2);
 
   const horas50Val = parseFloat(horas50.value);
   const horas75Val = parseFloat(horas75.value);
   const horas100Val = parseFloat(horas100.value);
 
-  const totalHoras = parseFloat(horasExtraordinarias(
-    horas50Val,
-    horas75Val,
-    horas100Val,
-    custoHora
-  ));
+  const totalHoras = parseFloat(
+    horasExtraordinarias(horas50Val, horas75Val, horas100Val, custoHora)
+  );
 
-  const valorAlimValue = parseFloat(valorAlim.value);
-  const alimDesc = parseFloat(calcAlim(valorAlimValue, absences, horas));
+  const alimDesc = parseFloat(
+    calcAlim(
+      valorAlimValue,
+      absences,
+      proporcionalTempoTrabalhado(horasTrabalhadas, valorAlimValue)
+    )
+  );
 
-  const nightHours = parseFloat(horasNoite(horasNoiteVal)); // Properly calculate night hours
+  const nightHours = parseFloat(horasNoite(horasNoiteVal)) || 0; // Properly calculate night hours
 
   const duodec = parseFloat(duodecimos(base));
   const naoRem = parseFloat(naoRemunerado(absences, custoHora));
@@ -374,7 +396,7 @@ function calcular() {
       absences
     ).toFixed(2)
   );
-  console.log(vencBruto)
+
   const taxBracket = taxdata.find(
     (item) => vencBruto > item.min && vencBruto <= item.max
   );
@@ -393,30 +415,35 @@ function calcular() {
     alimDesc
   );
 
-  duodecimoNatal.textContent = duodec;
-  duodecimoFerias.textContent = duodec;
+  duodecimoNatal.textContent = `O seu Duodécimo do Subsídio de Natal é: ${duodec}€`;
+  duodecimoFerias.textContent = `O seu Duodécimo do Subsídio de Férias é: ${duodec}€`;
   bruto.textContent = `O seu Vencimento Bruto é ${parseFloat(vencBruto)} €`;
-  extra.textContent = totalHoras.toFixed(2);
-  liquido.textContent = vencFinal;
-  totalDescontos.textContent = totalDesc;
-  descIrs.textContent = irs.toFixed(2);
-  descSegSocial.textContent = segSocial.toFixed(2);
-  descPorFaltas.textContent = naoRem.toFixed(2);
-  subsidioCompleto.textContent = subsidio.toFixed(2);
-  noturnas.textContent = nightHours.toFixed(2);
-  totalSubAlim.textContent = `O valor do seu Subsídio de Alimentação é de: ${totalAlim} €`
+  extra.textContent = `O Seu Total de Horas Extra é: ${totalHoras.toFixed(
+    2
+  )} €`;
+  liquido.textContent = `${vencFinal} €`;
+  totalDescontos.textContent = `${totalDesc} €`;
+  descIrs.textContent = `${irs.toFixed(2)} €`;
+  descSegSocial.textContent = `${segSocial.toFixed(2)} €`;
+  descPorFaltas.textContent = `${naoRem.toFixed(2)} €`;
+  subsidioCompleto.textContent = `O valor do seu Subsídio é de: ${subsidio.toFixed(
+    2
+  )}€`;
+  noturnas.textContent = `O Seu Total de Horas Noturnas é: ${nightHours}€`;
+  totalSubAlim.textContent = `O valor do seu Subsídio de Alimentação é de: ${totalAlim} €`;
+  subsidioAlimIrs.textContent = `O valor do seu Subsídio de Alimentação sujeito a IRS é de: ${alimDesc} €`;
 }
 
 function clearAll() {
-  vencBase.value = 0;
-  comission.value = 0;
-  faltas.value = 0;
-  horasTrabalhadas.value = 0;
-  horas50.value = 0;
-  horas75.value = 0;
-  horas100.value = 0;
-  valorAlim.value = 0;
-  horasNoturnas.value = 0;
+  vencBase.value = null;
+  comission.value = null;
+  faltas.value = null;
+  horasTrabalhadas.value = null;
+  horas50.value = null;
+  horas75.value = null;
+  horas100.value = null;
+  valorAlim.value = null;
+  horasNoturnas.value = null;
 }
 
 function clearPageOne() {
@@ -443,6 +470,7 @@ calcBtn.addEventListener("click", (e) => {
 
   //Verificar validade do formulário
   if (form.checkValidity()) {
+    if (!vencBase.value || !comission.value || !faltas.value) return;
     pageThree.classList.add("hide");
     result.classList.remove("hide");
     calcular();

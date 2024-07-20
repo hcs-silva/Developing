@@ -42,7 +42,7 @@ input[type="number"]::-webkit-inner-spin-button {
 /* Esconde os spinner controls no Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
-  appearance: textfield;
+  appearance: textfield;  
 }
 
 /* Formulário de cálculo de vencimento */
