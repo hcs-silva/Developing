@@ -126,6 +126,18 @@ function validateNumberInput(input) {
   }
 }
 
+function totalHorasMes(horasTrabalhadas) {
+    let totalHorasMensal = 0;
+    if(contratoFull.checked && !contratoPart.checked) {
+      totalHorasMensal = 176;
+    }
+
+    if(!contratoFull.checked && contratoPart.checked) {
+      totalHorasMensal = horasTrabalhadas * 4
+    }
+    return totalHorasMensal;
+}
+
 // Previne e, E, +, - de serem escritos no campo
 numberInputs.forEach((input) => {
   // Prevent e, E, +, - characters from being typed
@@ -308,16 +320,37 @@ function horasNoite(horasNoturnas) {
 }
 
 // Calcula o valor a deduzir das faltas do funcionário
-function naoRemunerado(faltas, precoHora) {
-  const naoRemunerado = parseFloat((faltas * precoHora).toFixed(2));
-  console.log(naoRemunerado);
-  return naoRemunerado;
+function naoRemuneradoFull(faltas, precoHora) {
+  let valorDescontadoFull = 0
+  if(contratoFull.checked && faltas > 176) {  
+    alert('Número de faltas não pode ser superior ao tempo trabalhado.'); 
+    valorDescontadoFull = 0;     
+  }else {    
+    valorDescontadoFull = (faltas * precoHora);    
+  }
+  console.log(valorDescontadoFull);
+  return valorDescontadoFull;
 }
+
+function naoRemuneradoPart (faltas, precoHora, horasTrabalhadas) {
+  let valorDescontadoPart = 0;
+  
+  if(contratoPart.checked && faltas > (horasTrabalhadas * 4)) {
+    alert('Número de faltas não pode ser superior ao tempo trabalhado.');   
+    valorDescontadoPart = 0;     
+  } else {
+    valorDescontadoPart = (faltas * precoHora)  
+  }
+  console.log( valorDescontadoPart)
+  return valorDescontadoPart;
+}
+
 
 function vencLiquido(
   vencBase,
   duodecimos,
-  naoRemunerado,
+  naoRemuneradoPart,
+  naoRemuneradoFull,
   comission,
   subsidio,
   totalHoras,
@@ -332,7 +365,7 @@ function vencLiquido(
     nightHours +
     alimParaDescontos +
     comission -
-    naoRemunerado
+    (naoRemuneradoPart + naoRemuneradoFull)
   ).toFixed(2);
 
   const taxBracket = taxdata.find(
@@ -348,6 +381,8 @@ function vencLiquido(
 }
 
 function calcular() {
+
+  const faltas = document.querySelector("#faltas")
   const base = parseFloat(vencBase.value);
   const commission = parseFloat(comission.value);
   const absences = parseFloat(faltas.value);
@@ -382,7 +417,24 @@ function calcular() {
   const nightHours = parseFloat(horasNoite(horasNoiteVal)) || 0; // Properly calculate night hours
 
   const duodec = parseFloat(duodecimos(base));
-  const naoRem = parseFloat(naoRemunerado(absences, custoHora));
+  const naoRemFull = parseFloat(naoRemuneradoFull(absences, custoHora));
+  const naoRemPart = parseFloat(naoRemuneradoPart(absences, custoHora, horas));
+
+
+  if(naoRemFull === 0) {
+    result.classList.remove("hide");
+    pageThree.classList.add("hide");
+  }else {
+    pageThree.classList.remove("hide");
+    result.classList.add("hide");
+  }
+
+  if(naoRemPart === 0) {
+    pageThree.classList.remove("hide");
+  }else {    
+    result.classList.remove("hide");
+    pageThree.classList.add("hide");
+  }
 
   const vencBruto = parseFloat(
     (
@@ -393,7 +445,7 @@ function calcular() {
       nightHours +
       alimDesc +
       subsidio -
-      absences
+      absences - (naoRemFull + naoRemPart)
     ).toFixed(2)
   );
 
@@ -407,7 +459,8 @@ function calcular() {
   const vencFinal = vencLiquido(
     base,
     duodec,
-    naoRem,
+    naoRemFull,
+    naoRemPart,
     commission,
     subsidio,
     totalHoras,
@@ -425,7 +478,7 @@ function calcular() {
   totalDescontos.textContent = `${totalDesc} €`;
   descIrs.textContent = `${irs.toFixed(2)} €`;
   descSegSocial.textContent = `${segSocial.toFixed(2)} €`;
-  descPorFaltas.textContent = `${naoRem.toFixed(2)} €`;
+  descPorFaltas.textContent = ` €`;
   subsidioCompleto.textContent = `O valor do seu Subsídio é de: ${subsidio.toFixed(
     2
   )}€`;

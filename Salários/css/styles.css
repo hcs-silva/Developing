@@ -138,6 +138,7 @@ button {
   flex: 1;
   border-radius: 15px;
   transition: opacity 0.3s ease;
+  font-weight: bold;
 }
 
 button:hover {
