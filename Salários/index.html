@@ -23,11 +23,11 @@
               <div class="form-control">
                 <label class="turnos">Trabalho por Turnos ?</label>
                 <div id="confirma-duodecimos">
-                  <div class="sim">
+                  <div class="sim radio-input">
                     <label for="sim">Sim</label>
                     <input type="radio" name="turnos" id="por-turnos" />
                   </div>
-                  <div class="nao">
+                  <div class="nao radio-input">
                     <label for="nao">Não</label>
                     <input type="radio" name="turnos" id="sem-turnos" />
                   </div>
@@ -45,11 +45,11 @@
               <div class="form-control">
                 <label class="subsidioAlim">Recebe Subsidio de Alimentação ?</label>
                 <div id="confirma-duodecimos">
-                  <div class="sim">
+                  <div class="sim radio-input">
                     <label for="sim">Sim</label>
                     <input type="radio" name="subsidio-alim" id="recebe" />
                   </div>
-                  <div class="nao">
+                  <div class="nao radio-input">
                     <label for="nao">Não</label>
                     <input type="radio" name="subsidio-alim" id="nao-recebe" />
                   </div>
@@ -58,11 +58,11 @@
               <div class="form-control hide" id="tipo-pagamento">
                 <label class="subsidioCartao">Em Cartão Refeição ou Dinheiro ?</label>
                 <div id="confirma-duodecimos">
-                  <div class="sim">
+                  <div class="sim radio-input">
                     <label for="sim">Cartão</label>
                     <input type="radio" name="tipo-pagamento" id="euroTicket" />
                   </div>
-                  <div class="nao">
+                  <div class="nao radio-input">
                     <label for="nao">Dinheiro</label>
                     <input type="radio" name="tipo-pagamento" id="money" />
                   </div>
@@ -83,11 +83,11 @@
               <div class="form-control">
                 <label class="contrato">Tipo de Contrato:</label>
                 <div id="confirma-duodecimos">
-                  <div class="sim">
+                  <div class="sim radio-input">
                     <label for="sim">Full-Time</label>
                     <input type="radio" name="time" id="full-time" />
                   </div>
-                  <div class="nao">
+                  <div class="nao radio-input">
                     <label for="nao">Part-Time</label>
                     <input type="radio" name="time" id="part-time" />
                   </div>
@@ -105,11 +105,11 @@
               <div class="form-control" id="horas-extra">
                 <label for="horas">Horas Extra?</label>
                 <div id="confirma-horas">
-                  <div class="sim">
+                  <div class="sim radio-input">
                     <label for="sim">Sim</label>
                     <input type="radio" name="horas" id="fez" />
                   </div>
-                  <div class="nao">
+                  <div class="nao radio-input">
                     <label for="nao">Não</label>
                     <input type="radio" name="horas" id="nao-fez" />
                   </div>
@@ -150,11 +150,11 @@
               <div class="form-control">
                 <label class="legenda">Subsídios em Duodécimos ?</label>
                 <div id="confirma-duodecimos">
-                  <div class="sim">
+                  <div class="sim radio-input">
                     <label for="sim">Sim</label>
                     <input type="radio" name="radio" id="duodecimos" />
                   </div>
-                  <div class="nao">
+                  <div class="nao radio-input">
                     <label for="nao">Não</label>
                     <input type="radio" name="radio" id="nao-duodecimos" />
                   </div>
@@ -163,13 +163,15 @@
               <div class="form-control hide" id="confirmacao">
                 <label class="legenda">Recebeu Subsídio ?</label>
                 <div id="confirma-subsidio">
-                  <div class="pago">
+                  <div class="pago radio-input">
                     <label for="pago">Sim</label>
                     <input type="radio" name="checkbox" id="pago" />
                   </div>
                   <div class="confirma-subsidio">
-                    <label for="nao-pago">Não</label>
-                    <input type="radio" name="checkbox" id="nao-pago" />
+                    <div class="nao-pago radio-input">
+                      <label for="nao-pago">Não</label>
+                      <input type="radio" name="checkbox" id="nao-pago" />
+                    </div>
                   </div>
                 </div>
               </div>

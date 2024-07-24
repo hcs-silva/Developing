@@ -45,6 +45,20 @@ input[type="number"] {
   appearance: textfield;  
 }
 
+input[type="radio"] {
+  height: 20px;
+  width: 20px;
+}
+
+.radio-input {
+  display: flex;
+}
+.radio-input label {
+  height:20px;
+  width:auto;
+  padding-right: 0.5rem;
+  font-size: 1.1rem;
+}
 /* Formulário de cálculo de vencimento */
 
 #calc-container h2 {
