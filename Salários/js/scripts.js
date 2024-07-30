@@ -28,8 +28,10 @@ const calcContainer = document.querySelector("#calc-container");
 
 const radioBtnNo = document.querySelector("#nao-duodecimos");
 const radioBtnYes = document.querySelector("#duodecimos");
-const subsidioPago = document.querySelector("#pago");
-const subsidioNaoPago = document.querySelector("#nao-pago");
+const subsidioPagoFerias = document.querySelector("#pagoF");
+const subsidioNaoPagoFerias = document.querySelector("#nao-pagoF");
+const subsidioPagoNatal  = document.querySelector("#pagoN");
+const subsidioNaoPagoNatal = document.querySelector("#nao-pagoN")
 const fezHoras = document.querySelector("#fez");
 const naoFezHoras = document.querySelector("#nao-fez");
 const formHoras = document.querySelector("#horas-mes");
@@ -53,7 +55,8 @@ const descSegSocial = document.querySelector("#seg-social");
 const descPorFaltas = document.querySelector("#por-faltas");
 const totalDescontos = document.querySelector("#total-descontos");
 const liquido = document.querySelector("#liquido");
-const subsidioCheck = document.querySelector("#confirmacao");
+const subsidioFeriasCheck = document.querySelector("#confirmacaoF");
+const subsidioNatalCheck = document.querySelector("#confirmacaoN");
 const subsidioCompleto = document.querySelector("#subsidioCompleto");
 const totalSubAlim = document.querySelector("#subsidioAlimentacao");
 const subsidioAlimIrs = document.querySelector("#subsidioAlimentacaoIrs");
@@ -92,13 +95,15 @@ const restart = document.querySelector("#restart");
 function duodecimos(vencBase) {
   const duodecimos = radioBtnNo.checked ? 0 : (vencBase / 12).toFixed(2);
   if (radioBtnNo.checked && !radioBtnYes.checked) {
-    subsidioCheck.classList.remove("hide");
+    subsidioFeriasCheck.classList.remove("hide");
+    subsidioNatalCheck.classList.remove("hide");
     duodecimoFerias.classList.add("hide");
     duodecimoNatal.classList.add("hide");
   }
 
   if (!radioBtnNo.checked && radioBtnYes.checked) {
-    subsidioCheck.classList.add("hide");
+    subsidioFeriasCheck.classList.add("hide");
+    subsidioNatalCheck.classList.add("hide");
     duodecimoFerias.classList.remove("hide");
     duodecimoNatal.classList.remove("hide");
   }
@@ -158,16 +163,16 @@ numberInputs.forEach((input) => {
 
 // Devolve o valor do subsidio de férias ou natal, se tiver sido recebido.
 function subsidioRecebido(vencBase) {
-  let subsidio = subsidioPago.checked ? vencBase : 0;
+  let subsidio = subsidioPagoNatal.checked || subsidioPagoFerias.checked ? vencBase : 0;
   if (radioBtnYes.checked) {
     subsidio = 0;
     subsidioCompleto.classList.add("hide");
   } else {
-    if (subsidioPago.checked && !subsidioNaoPago.checked) {
+    if ((subsidioPagoFerias.checked && !subsidioNaoPagoFerias.checked) || (subsidioPagoNatal.checked && !subsidioNaoPagoNatal.checked)) {
       subsidioCompleto.classList.remove("hide");
     }
 
-    if (!subsidioPago.checked && subsidioNaoPago.checked) {
+    if ((!subsidioPagoFerias.checked && subsidioNaoPagoFerias.checked) || (!subsidioPagoNatal.checked && subsidioNaoPagoNatal.checked)) {
       subsidioCompleto.classList.add("hide");
     }
   }
@@ -420,21 +425,11 @@ function calcular() {
   const naoRemFull = parseFloat(naoRemuneradoFull(absences, custoHora));
   const naoRemPart = parseFloat(naoRemuneradoPart(absences, custoHora, horas));
 
+  // Verifica o tipo de contrato e devovle o valor das faltas.
+  const partOrFull = contratoPart.checked ? naoRemPart : naoRemFull;
 
-  if(naoRemFull === 0) {
-    result.classList.remove("hide");
-    pageThree.classList.add("hide");
-  }else {
-    pageThree.classList.remove("hide");
-    result.classList.add("hide");
-  }
 
-  if(naoRemPart === 0) {
-    pageThree.classList.remove("hide");
-  }else {    
-    result.classList.remove("hide");
-    pageThree.classList.add("hide");
-  }
+ 
 
   const vencBruto = parseFloat(
     (
@@ -478,7 +473,7 @@ function calcular() {
   totalDescontos.textContent = `${totalDesc} €`;
   descIrs.textContent = `${irs.toFixed(2)} €`;
   descSegSocial.textContent = `${segSocial.toFixed(2)} €`;
-  descPorFaltas.textContent = ` €`;
+  descPorFaltas.textContent = ` ${partOrFull}€`;
   subsidioCompleto.textContent = `O valor do seu Subsídio é de: ${subsidio.toFixed(
     2
   )}€`;
@@ -497,24 +492,55 @@ function clearAll() {
   horas100.value = null;
   valorAlim.value = null;
   horasNoturnas.value = null;
+  radioBtnNo.checked = false;
+  radioBtnYes.checked = false;
+  subsidioPagoFerias.checked = false;
+  subsidioPagoNatal.checked = false;
+  subsidioNaoPagoFerias.checked = false;
+  subsidioNaoPagoNatal.checked = false;
+  radioBtnNo.checked = false;
+  radioBtnYes.checked = false;
+  contratoFull.checked = false;
+  contratoPart.checked = false;
+  fezHoras.checked = false;
+  porTurnos.checked = false;
+  semTurnos.checked = false;
+  recebeSubAlim.checked = false;
+  naoRecebeSubAlim.checked = false;
 }
 
 function clearPageOne() {
-  horasNoturnas.value = 0;
-  vencBase.value = 0;
-  valorAlim.value = 0;
+  radioBtnNo.checked = false;
+  radioBtnYes.checked = false;
+  horasNoturnas.value = null;
+  vencBase.value = null;
+  valorAlim.value = null;
 }
 
 function clearPageTwo() {
-  horasTrabalhadas.value = 0;
-  horas50.value = 0;
-  horas75.value = 0;
-  horas100.value = 0;
+  contratoFull.checked = false;
+  contratoPart.checked = false;
+  fezHoras.checked = false;
+  naoFezHoras.checked = false;
+  horasTrabalhadas.value = null;
+  horas50.value = null;
+  horas75.value = null;
+  horas100.value = null;
+  formHoras.classList.add("hide");
+  horasTrabalhadasBox.classList.add("hide");
 }
 
 function clearPageThree() {
-  comission.value = 0;
-  faltas.value = 0;
+  radioBtnNo.checked = false;
+  radioBtnYes.checked = false;
+  subsidioPagoFerias.checked = false;
+  subsidioPagoNatal.checked = false;
+  subsidioNaoPagoFerias.checked = false;
+  subsidioNaoPagoNatal.checked = false;
+  comission.value = null;
+  faltas.value = null;
+  subsidioFeriasCheck.classList.add("hide");
+  subsidioNatalCheck.classList.add("hide");
 }
 
 //Eventos
