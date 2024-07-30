@@ -30,8 +30,8 @@ const radioBtnNo = document.querySelector("#nao-duodecimos");
 const radioBtnYes = document.querySelector("#duodecimos");
 const subsidioPagoFerias = document.querySelector("#pagoF");
 const subsidioNaoPagoFerias = document.querySelector("#nao-pagoF");
-const subsidioPagoNatal  = document.querySelector("#pagoN");
-const subsidioNaoPagoNatal = document.querySelector("#nao-pagoN")
+const subsidioPagoNatal = document.querySelector("#pagoN");
+const subsidioNaoPagoNatal = document.querySelector("#nao-pagoN");
 const fezHoras = document.querySelector("#fez");
 const naoFezHoras = document.querySelector("#nao-fez");
 const formHoras = document.querySelector("#horas-mes");
@@ -117,30 +117,33 @@ function validateNumberInput(input) {
   if (input.type === "number") {
     let value = input.value;
 
-    // Remove todos os caracteres não-digito.
-    value = value.replace(/[^0-9.]/g, "");
+    // Remove all non-digit characters except for comma and period
+    value = value.replace(/[^\d.,]/g, '');
 
-    // Garante a existência de apenas um ponto decimal
-    const parts = value.split(".");
+    // Ensure only one decimal point
+    const parts = value.split(/[.,]/);
     if (parts.length > 2) {
-      value = parts[0] + "." + parts.slice(1).join("");
+      value = parts[0] + '.' + parts.slice(1).join('');
     }
 
-    // Actualiza o input value
+    if (value.endsWith(',')) {
+      value = value.replace(',', '.');
+    }
+
     input.value = value;
   }
 }
 
 function totalHorasMes(horasTrabalhadas) {
-    let totalHorasMensal = 0;
-    if(contratoFull.checked && !contratoPart.checked) {
-      totalHorasMensal = 176;
-    }
+  let totalHorasMensal = 0;
+  if (contratoFull.checked && !contratoPart.checked) {
+    totalHorasMensal = 176;
+  }
 
-    if(!contratoFull.checked && contratoPart.checked) {
-      totalHorasMensal = horasTrabalhadas * 4
-    }
-    return totalHorasMensal;
+  if (!contratoFull.checked && contratoPart.checked) {
+    totalHorasMensal = horasTrabalhadas * 4;
+  }
+  return totalHorasMensal;
 }
 
 // Previne e, E, +, - de serem escritos no campo
@@ -163,16 +166,23 @@ numberInputs.forEach((input) => {
 
 // Devolve o valor do subsidio de férias ou natal, se tiver sido recebido.
 function subsidioRecebido(vencBase) {
-  let subsidio = subsidioPagoNatal.checked || subsidioPagoFerias.checked ? vencBase : 0;
+  let subsidio =
+    subsidioPagoNatal.checked || subsidioPagoFerias.checked ? vencBase : 0;
   if (radioBtnYes.checked) {
     subsidio = 0;
     subsidioCompleto.classList.add("hide");
   } else {
-    if ((subsidioPagoFerias.checked && !subsidioNaoPagoFerias.checked) || (subsidioPagoNatal.checked && !subsidioNaoPagoNatal.checked)) {
+    if (
+      (subsidioPagoFerias.checked && !subsidioNaoPagoFerias.checked) ||
+      (subsidioPagoNatal.checked && !subsidioNaoPagoNatal.checked)
+    ) {
       subsidioCompleto.classList.remove("hide");
     }
 
-    if ((!subsidioPagoFerias.checked && subsidioNaoPagoFerias.checked) || (!subsidioPagoNatal.checked && subsidioNaoPagoNatal.checked)) {
+    if (
+      (!subsidioPagoFerias.checked && subsidioNaoPagoFerias.checked) ||
+      (!subsidioPagoNatal.checked && subsidioNaoPagoNatal.checked)
+    ) {
       subsidioCompleto.classList.add("hide");
     }
   }
@@ -326,30 +336,29 @@ function horasNoite(horasNoturnas) {
 
 // Calcula o valor a deduzir das faltas do funcionário
 function naoRemuneradoFull(faltas, precoHora) {
-  let valorDescontadoFull = 0
-  if(contratoFull.checked && faltas > 176) {  
-    alert('Número de faltas não pode ser superior ao tempo trabalhado.'); 
-    valorDescontadoFull = 0;     
-  }else {    
-    valorDescontadoFull = (faltas * precoHora);    
+  let valorDescontadoFull = 0;
+  if (contratoFull.checked && faltas > 176) {
+    alert("Número de faltas não pode ser superior ao tempo trabalhado.");
+    valorDescontadoFull = 0;
+  } else {
+    valorDescontadoFull = faltas * precoHora;
   }
   console.log(valorDescontadoFull);
   return valorDescontadoFull;
 }
 
-function naoRemuneradoPart (faltas, precoHora, horasTrabalhadas) {
+function naoRemuneradoPart(faltas, precoHora, horasTrabalhadas) {
   let valorDescontadoPart = 0;
-  
-  if(contratoPart.checked && faltas > (horasTrabalhadas * 4)) {
-    alert('Número de faltas não pode ser superior ao tempo trabalhado.');   
-    valorDescontadoPart = 0;     
+
+  if (contratoPart.checked && faltas > horasTrabalhadas * 4) {
+    alert("Número de faltas não pode ser superior ao tempo trabalhado.");
+    valorDescontadoPart = 0;
   } else {
-    valorDescontadoPart = (faltas * precoHora)  
+    valorDescontadoPart = faltas * precoHora;
   }
-  console.log( valorDescontadoPart)
+  console.log(valorDescontadoPart);
   return valorDescontadoPart;
 }
-
 
 function vencLiquido(
   vencBase,
@@ -386,8 +395,7 @@ function vencLiquido(
 }
 
 function calcular() {
-
-  const faltas = document.querySelector("#faltas")
+  const faltas = document.querySelector("#faltas");
   const base = parseFloat(vencBase.value);
   const commission = parseFloat(comission.value);
   const absences = parseFloat(faltas.value);
@@ -428,9 +436,6 @@ function calcular() {
   // Verifica o tipo de contrato e devovle o valor das faltas.
   const partOrFull = contratoPart.checked ? naoRemPart : naoRemFull;
 
-
- 
-
   const vencBruto = parseFloat(
     (
       base +
@@ -440,7 +445,8 @@ function calcular() {
       nightHours +
       alimDesc +
       subsidio -
-      absences - (naoRemFull + naoRemPart)
+      absences -
+      (naoRemFull + naoRemPart)
     ).toFixed(2)
   );
 
