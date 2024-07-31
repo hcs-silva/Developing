@@ -26,3 +26,27 @@ input.addEventListener("input", function () {
 input.addEventListener("paste", function () {
   validateNumberInput(this);
 });
+
+//versão semi-funcional da validação de inputs
+
+if (input.type === "number") {
+  let value = input.value;
+
+  // Remove all non-digit characters except for decimal point
+  value = value.replace(/[^\d.]+/g, "");
+
+  // Ensure only one decimal separator
+  const decimalIndex = value.indexOf(".");
+  if (decimalIndex !== -1) {
+    value =
+      value.slice(0, decimalIndex + 1) +
+      value.slice(decimalIndex + 1).replace(/\./g, "");
+  }
+
+  // Prevent decimal point at the beginning of the input field
+  if (value.startsWith(".")) {
+    value = "0" + value;
+  }
+
+  input.value = value;
+}

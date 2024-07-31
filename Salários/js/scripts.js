@@ -86,7 +86,7 @@ const backBtn = document.querySelector("#back-btn");
 const backBtnPageTwo = document.querySelector("#back-btn-pageTwo");
 const backBtnPageThree = document.querySelector("#nack-btn-pageThree");
 const backBtnResult = document.querySelector("#back-btn-result");
-const clearBtn = document.querySelector("#clear-btn");
+const clearBtnPageOne = document.querySelector("#clear-btn-pageOne");
 const clearBtnPageTwo = document.querySelector("#clear-btn-pageTwo");
 const clearBtnPageThree = document.querySelector("#clear-btn-pageThree");
 const restart = document.querySelector("#restart");
@@ -130,7 +130,7 @@ function validateNumberInput(input) {
 
     // Prevent decimal point at the beginning of the input field
     if (value.startsWith(".")) {
-      value = value.slice(1);
+      value = "0" + value;
     }
 
     input.value = value;
@@ -332,10 +332,11 @@ function horasNoite(horasNoturnas) {
 // Calcula o valor a deduzir das faltas do funcionário
 function naoRemuneradoFull(faltas, precoHora) {
   let valorDescontadoFull = 0;
-  if (contratoFull.checked && faltas > 176) {
+  if (contratoFull.checked && faltas > 173) {
     alert("Número de faltas não pode ser superior ao tempo trabalhado.");
     valorDescontadoFull = 0;
-  } else {
+  }
+  if (contratoFull.checked && faltas <= 173) {
     valorDescontadoFull = faltas * precoHora;
   }
   console.log(valorDescontadoFull);
@@ -347,8 +348,10 @@ function naoRemuneradoPart(faltas, precoHora, horasTrabalhadas) {
 
   if (contratoPart.checked && faltas > horasTrabalhadas * 4) {
     alert("Número de faltas não pode ser superior ao tempo trabalhado.");
-    valorDescontadoPart = 0;
-  } else {
+    return;
+  }
+
+  if (contratoPart.checked && faltas <= horasTrabalhadas * 4) {
     valorDescontadoPart = faltas * precoHora;
   }
   console.log(valorDescontadoPart);
@@ -374,9 +377,21 @@ function vencLiquido(
     nightHours +
     alimParaDescontos +
     comission -
-    (naoRemuneradoPart + naoRemuneradoFull)
+    naoRemuneradoPart -
+    naoRemuneradoFull
   ).toFixed(2);
 
+  console.log(
+    vencBase,
+    duodecimos,
+    subsidio,
+    totalHoras,
+    nightHours,
+    alimParaDescontos,
+    comission,
+    naoRemuneradoPart,
+    naoRemuneradoFull
+  );
   const taxBracket = taxdata.find(
     (item) => vencBruto > item.min && vencBruto <= item.max
   );
@@ -429,22 +444,35 @@ function calcular() {
   const naoRemPart = parseFloat(naoRemuneradoPart(absences, custoHora, horas));
 
   // Verifica o tipo de contrato e devovle o valor das faltas.
-  const partOrFull = contratoPart.checked ? naoRemPart : naoRemFull;
+  const partOrFull = contratoPart.checked
+    ? naoRemPart.toFixed(2)
+    : naoRemFull.toFixed(2);
+
+  console.log(partOrFull);
 
   const vencBruto = parseFloat(
-    (
-      base +
+    base +
       duodec * 2 +
       commission +
       totalHoras +
       nightHours +
       alimDesc +
       subsidio -
-      absences -
-      (naoRemFull + naoRemPart)
-    ).toFixed(2)
-  );
+      naoRemFull -
+      naoRemPart
+  ).toFixed(2);
 
+  console.log(
+    base,
+    duodec,
+    commission,
+    totalHoras,
+    nightHours,
+    alimDesc,
+    subsidio,
+    naoRemFull,
+    naoRemPart
+  );
   const taxBracket = taxdata.find(
     (item) => vencBruto > item.min && vencBruto <= item.max
   );
@@ -508,14 +536,23 @@ function clearAll() {
   semTurnos.checked = false;
   recebeSubAlim.checked = false;
   naoRecebeSubAlim.checked = false;
+  ticket.checked = false;
+  dinheiro.checked = false;
 }
 
 function clearPageOne() {
-  radioBtnNo.checked = false;
-  radioBtnYes.checked = false;
+  porTurnos.checked = false;
+  semTurnos.checked = false;
+  recebeSubAlim.checked = false;
+  naoRecebeSubAlim.checked = false;
+  ticket.checked = false;
+  dinheiro.checked = false;
   horasNoturnas.value = null;
   vencBase.value = null;
   valorAlim.value = null;
+  horasNoturnasBox.classList.add("hide");
+  tipoPagamento.classList.add("hide");
+  valorAlimBox.classList.add("hide");
 }
 
 function clearPageTwo() {
@@ -557,6 +594,12 @@ calcBtn.addEventListener("click", (e) => {
   } else {
     //faz foco no campo required.
     form.reportValidity();
+    form.reportValidity();
+    const invalidField = form.querySelector(":invalid");
+    const pageId = invalidField.closest('[id^="page-"]').id;
+    document.getElementById(pageId).classList.remove("hide");
+    pageThree.classList.add("hide");
+    invalidField.focus();
   }
 });
 
@@ -610,14 +653,19 @@ backBtnResult.addEventListener("click", (e) => {
   pageThree.classList.remove("hide");
 });
 
-clearBtn.addEventListener("click", (e) => {
+clearBtnPageOne.addEventListener("click", (e) => {
   e.preventDefault();
-  clearPageThree();
+  clearPageOne();
 });
 
 clearBtnPageTwo.addEventListener("click", (e) => {
   e.preventDefault();
   clearPageTwo();
+});
+
+clearBtnPageThree.addEventListener("click", (e) => {
+  e.preventDefault();
+  clearPageThree();
 });
 
 calcBtnPageOne.addEventListener("click", (e) => {
