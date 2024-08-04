@@ -30,6 +30,7 @@ body {
   background-color: #ffffff;
   padding: 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
 }
 
 /* Esconde os spinner controls em Webkit browsers (Chrome, Safari, Edge) */
@@ -156,6 +157,7 @@ button:hover {
   text-align: center;
   display: flex;
   flex-direction: column;
+  border-radius: 5px;
 }
 
 #result-container h3 {
