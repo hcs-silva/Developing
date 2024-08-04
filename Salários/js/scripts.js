@@ -526,12 +526,20 @@ function clearAll() {
   contratoFull.checked = false;
   contratoPart.checked = false;
   fezHoras.checked = false;
+  naoFezHoras = false;
   porTurnos.checked = false;
   semTurnos.checked = false;
   recebeSubAlim.checked = false;
   naoRecebeSubAlim.checked = false;
   ticket.checked = false;
   dinheiro.checked = false;
+  horasNoturnasBox.classList.add("hide");
+  tipoPagamento.classList.add("hide");
+  valorAlimBox.classList.add("hide");
+  formHoras.classList.add("hide");
+  horasTrabalhadasBox.classList.add("hide");
+  subsidioFeriasCheck.classList.add("hide");
+  subsidioNatalCheck.classList.add("hide");
 }
 
 function clearPageOne() {

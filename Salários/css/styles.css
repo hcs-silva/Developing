@@ -145,7 +145,7 @@ button:hover {
   opacity: 1;
 }
 
-#clear-btn, #clear-btn-pageOne, #clear-btn-pageTwo {
+#clear-btn, #clear-btn-pageOne, #clear-btn-pageTwo, #clear-btn-pageThree {
   background-color: #666;
   color: #fff;
 }
