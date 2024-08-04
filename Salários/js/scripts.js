@@ -116,23 +116,11 @@ function duodecimos(vencBase) {
 function validateNumberInput(input) {
   if (input.type === "number") {
     let value = input.value;
-
-    // Remove all non-digit characters except for decimal point
-    value = value.replace(/[^\d.]+/g, "");
-
-    // Ensure only one decimal separator
-    const decimalIndex = value.indexOf(".");
-    if (decimalIndex !== -1) {
-      value =
-        value.slice(0, decimalIndex + 1) +
-        value.slice(decimalIndex + 1).replace(/\./g, "");
+    const regex = /^\d{1,3}(?:[.,]\d+)?$/;
+    if (!regex.test(value)) {
+      value = value.replace(/[^\d.,]+/g, "");
+      value = value.replace(",", ".");
     }
-
-    // Prevent decimal point at the beginning of the input field
-    if (value.startsWith(".")) {
-      value = "0" + value;
-    }
-
     input.value = value;
   }
 }

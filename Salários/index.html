@@ -18,7 +18,8 @@
             <div id="page-one">
               <div class="form-control">
                 <label for="base">Vencimento Base:</label>
-                <input type="number" name="base" id="base" placeholder="Vencimento Base" />
+                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
+                <input type="number" name="base" id="base" placeholder="Vencimento Base" step="0.01" />
               </div>
               <div class="form-control">
                 <label class="turnos">Trabalho por Turnos ?</label>
@@ -35,11 +36,13 @@
               </div>
               <div class="form-control hide" id="horas-noturnas">
                 <label for="horas-noturnas-trabalhadas">Horas Noturnas Mensais Trabalhadas:</label>
+                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
                 <input
                   type="number"
                   name="horas-noturnas"
                   id="horas-noturnas-trabalhadas"
-                  placeholder="Horas Noturnas Mensais Trabalhadas"                 
+                  placeholder="Horas Noturnas Mensais Trabalhadas"
+                  step="0.01"               
                 />
               </div>
               <div class="form-control">
@@ -70,7 +73,8 @@
               </div>
               <div class="form-control hide" id="diarioAlimBox">
                 <label for="diarioAlim">Valor Diário do Subsidio de Alimentação:</label>
-                <input type="number" name="diarioAlim" id="diarioAlim" placeholder="Valor Diário do Subsidio de Alimentação" />
+                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
+                <input type="number" name="diarioAlim" id="diarioAlim" placeholder="Valor Diário do Subsidio de Alimentação" step="0.01"/>
               </div>
               <div class="action-control">
                 <button type="submit" id="calc-btn-pageOne">Seguinte</button>
@@ -95,11 +99,13 @@
               </div>
               <div class="form-control hide" id="horas-semanais">
                 <label for="horas-semanais-trabalhadas">Horas Semanais Trabalhadas:</label>
+                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
                 <input
                   type="number"
                   name="horas"
                   id="horas-semanais-trabalhadas"
-                  placeholder="Horas Semanais Trabalhadas"                  
+                  placeholder="Horas Semanais Trabalhadas"
+                  step="0.01"                
                 />
               </div>
               <div class="form-control" id="horas-extra">
@@ -117,25 +123,31 @@
               </div>
               <div class="form-control hide" id="horas-mes">
                 <label for="horas50">Horas 50%</label>
+                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
                 <input
                   type="number"
                   name="horas50"
                   id="horas50"
                   placeholder="Horas Extra 50%"
+                  step="0.01"
                 />
                 <label for="horas50">Horas 75%</label>
+                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
                 <input
                   type="number"
                   name="horas50"
                   id="horas75"
                   placeholder="Horas Extra 75%"
+                  step="0.01"
                 />
                 <label for="horas100">Horas 100%</label>
+                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
                 <input
                   type="number"
                   name="horas50"
                   id="horas100"
                   placeholder="Horas Extra 100%"
+                  step="0.01"
                 />
               </div>
               <div class="action-control">
@@ -192,16 +204,19 @@
               </div>
               <div class="form-control">
                 <label for="comission">Comissões:</label>
+                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
                 <input
                   type="number"
                   name="comission"
                   id="comission"
                   placeholder="Comissões"
+                  step="0.01"
                 />
               </div>
               <div class="form-control">
                 <label for="faltas">Faltas (Em Horas):</label>
-                <input type="number" name="faltas" id="faltas" placeholder="Faltas" />
+                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
+                <input type="number" name="faltas" id="faltas" placeholder="Faltas" step="0.01"/>
               </div>
               <div class="action-control">
                 <button type="submit" id="calc-btn">Calcular</button>
