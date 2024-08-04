@@ -115,12 +115,18 @@ function duodecimos(vencBase) {
 
 function validateNumberInput(input) {
   if (input.type === "number") {
-    let value = input.value;
+    const maxLength = 10;
+    let value = input.value;  
     const regex = /^\d{1,3}(?:[.,]\d+)?$/;
     if (!regex.test(value)) {
       value = value.replace(/[^\d.,]+/g, "");
       value = value.replace(",", ".");
     }
+
+    if(value.length > maxLength){
+      value = value.substring(0, maxLength);
+    }
+
     input.value = value;
   }
 }
