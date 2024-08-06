@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calculadora de Salários</title>
+    <title>Salary Calculator</title>
     <link rel="stylesheet" href="css/styles.css" />
     <script src="js/scripts.js" defer></script>
   </head>
@@ -17,82 +17,82 @@
           <a href="./index-eng.html"><img src="./img/usukflag.jpg" alt="british and american flags faded together"></a>
           <a href="./index.html"><img src="./img/ptflag.png" alt="portuguese flag"></a>
         </div>
-        <h2>Calculadora de Salários</h2>
+        <h2>Salary Calculator</h2>
         <form id="salary-form">
           <div class="form-inputs">
 
 
             <div id="page-one">
               <div class="form-control">
-                <label for="base">Vencimento Base:</label>
-                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
-                <input type="number" name="base" id="base" placeholder="Vencimento Base" step="0.01" />
+                <label for="base">Base Salary:</label>
+                <h6>*The decimal values should be inserted with a point instead of a comma.</h6>
+                <input type="number" name="base" id="base" placeholder="Base Salary" step="0.01" />
               </div>
               <div class="form-control">
-                <label class="turnos">Trabalho por Turnos ?</label>
+                <label class="turnos">Do you work in Shifts ?</label>
                 <div id="confirma-duodecimos">
                   <div class="sim radio-input">
-                    <label for="sim">Sim</label>
+                    <label for="sim">Yes</label>
                     <input type="radio" name="turnos" id="por-turnos" />
                   </div>
                   <div class="nao radio-input">
-                    <label for="nao">Não</label>
+                    <label for="nao">No</label>
                     <input type="radio" name="turnos" id="sem-turnos" />
                   </div>
                 </div>
               </div>
               <div class="form-control hide" id="horas-noturnas">
-                <label for="horas-noturnas-trabalhadas">Horas Noturnas Mensais Trabalhadas:</label>
-                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
+                <label for="horas-noturnas-trabalhadas">Total hours worked at night (monthly):</label>
+                <h6>*The decimal values should be inserted with a point instead of a comma.</h6>
                 <input
                   type="number"
                   name="horas-noturnas"
                   id="horas-noturnas-trabalhadas"
-                  placeholder="Horas Noturnas Mensais Trabalhadas"
+                  placeholder="Total hours worked at night(monthly)"
                   step="0.01"               
                 />
               </div>
               <div class="form-control">
-                <label class="subsidioAlim">Recebe Subsidio de Alimentação ?</label>
+                <label class="subsidioAlim">Do you earn food allowance ?</label>
                 <div id="confirma-duodecimos">
                   <div class="sim radio-input">
-                    <label for="sim">Sim</label>
+                    <label for="sim">Yes</label>
                     <input type="radio" name="subsidio-alim" id="recebe" />
                   </div>
                   <div class="nao radio-input">
-                    <label for="nao">Não</label>
+                    <label for="nao">No</label>
                     <input type="radio" name="subsidio-alim" id="nao-recebe" />
                   </div>
                 </div>
               </div>
               <div class="form-control hide" id="tipo-pagamento">
-                <label class="subsidioCartao">Em Cartão Refeição ou Dinheiro ?</label>
+                <label class="subsidioCartao">Meal Ticket or Money ?</label>
                 <div id="confirma-duodecimos">
                   <div class="sim radio-input">
-                    <label for="sim">Cartão</label>
+                    <label for="sim">Ticket</label>
                     <input type="radio" name="tipo-pagamento" id="euroTicket" />
                   </div>
                   <div class="nao radio-input">
-                    <label for="nao">Dinheiro</label>
+                    <label for="nao">Money</label>
                     <input type="radio" name="tipo-pagamento" id="money" />
                   </div>
                 </div>
               </div>
               <div class="form-control hide" id="diarioAlimBox">
-                <label for="diarioAlim">Valor Diário do Subsidio de Alimentação:</label>
-                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
-                <input type="number" name="diarioAlim" id="diarioAlim" placeholder="Valor Diário do Subsidio de Alimentação" step="0.01"/>
+                <label for="diarioAlim">Daily value of the Food Allowance:</label>
+                <h6>*The decimal values should be inserted with a point instead of a comma.</h6>
+                <input type="number" name="diarioAlim" id="diarioAlim" placeholder="Daily value of the Food Allowance" step="0.01"/>
               </div>
               <div class="action-control">
-                <button type="submit" id="calc-btn-pageOne">Seguinte</button>
-                <button type="submit" id="clear-btn-pageOne">Limpar</button>
+                <button type="submit" id="calc-btn-pageOne">Next</button>
+                <button type="submit" id="clear-btn-pageOne">Clear</button>
               </div>
             </div>
 
 
             <div id="page-two" class="hide">
               <div class="form-control">
-                <label class="contrato">Tipo de Contrato:</label>
+                <label class="contrato">Contract type:</label>
                 <div id="confirma-duodecimos">
                   <div class="sim radio-input">
                     <label for="sim">Full-Time</label>
@@ -105,130 +105,130 @@
                 </div>
               </div>
               <div class="form-control hide" id="horas-semanais">
-                <label for="horas-semanais-trabalhadas">Horas Semanais Trabalhadas:</label>
-                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
+                <label for="horas-semanais-trabalhadas">Time worked (weekly):</label>
+                <h6>*The decimal values should be inserted with a point instead of a comma.</h6>
                 <input
                   type="number"
                   name="horas"
                   id="horas-semanais-trabalhadas"
-                  placeholder="Horas Semanais Trabalhadas"
+                  placeholder="Time worked (weekly)"
                   step="0.01"                
                 />
               </div>
               <div class="form-control" id="horas-extra">
-                <label for="horas">Horas Extra?</label>
+                <label for="horas">Overtime ?</label>
                 <div id="confirma-horas">
                   <div class="sim radio-input">
-                    <label for="sim">Sim</label>
+                    <label for="sim">Yes</label>
                     <input type="radio" name="horas" id="fez" />
                   </div>
                   <div class="nao radio-input">
-                    <label for="nao">Não</label>
+                    <label for="nao">No</label>
                     <input type="radio" name="horas" id="nao-fez" />
                   </div>
                 </div>
               </div>
               <div class="form-control hide" id="horas-mes">
-                <label for="horas50">Horas 50%</label>
-                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
+                <label for="horas50">Overtime 50%</label>
+                <h6>*The decimal values should be inserted with a point instead of a comma.</h6>
                 <input
                   type="number"
                   name="horas50"
                   id="horas50"
-                  placeholder="Horas Extra 50%"
+                  placeholder="Overtime 50%"
                   step="0.01"
                 />
-                <label for="horas50">Horas 75%</label>
-                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
+                <label for="horas50">Overtime 75%</label>
+                <h6>*The decimal values should be inserted with a point instead of a comma.</h6>
                 <input
                   type="number"
                   name="horas50"
                   id="horas75"
-                  placeholder="Horas Extra 75%"
+                  placeholder="Overtime 75%"
                   step="0.01"
                 />
-                <label for="horas100">Horas 100%</label>
-                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
+                <label for="horas100">Overtime 100%</label>
+                <h6>**The decimal values should be inserted with a point instead of a comma.</h6>
                 <input
                   type="number"
                   name="horas50"
                   id="horas100"
-                  placeholder="Horas Extra 100%"
+                  placeholder="Overtime 100%"
                   step="0.01"
                 />
               </div>
               <div class="action-control">
-                <button type="submit" id="calc-btn-pageTwo">Seguinte</button>
-                <button type="submit" id="back-btn-pageTwo">Voltar</button>
-                <button type="submit" id="clear-btn-pageTwo">Limpar</button>
+                <button type="submit" id="calc-btn-pageTwo">Next</button>
+                <button type="submit" id="back-btn-pageTwo">Back</button>
+                <button type="submit" id="clear-btn-pageTwo">Clear</button>
               </div>
             </div>
 
 
             <div id="page-three" class="hide">
               <div class="form-control">
-                <label class="legenda">Subsídios em Duodécimos ?</label>
+                <label class="legenda">Do you get the allowances in twelveths ?</label>
                 <div id="confirma-duodecimos">
                   <div class="sim radio-input">
-                    <label for="sim">Sim</label>
+                    <label for="sim">Yes</label>
                     <input type="radio" name="radio" id="duodecimos" />
                   </div>
                   <div class="nao radio-input">
-                    <label for="nao">Não</label>
+                    <label for="nao">No</label>
                     <input type="radio" name="radio" id="nao-duodecimos" />
                   </div>
                 </div>
               </div>
               <div class="form-control hide" id="confirmacaoF">
-                <label class="legenda">Recebeu Subsídio de Férias?</label>
+                <label class="legenda">Did you receive Holiday Allowance?</label>
                 <div id="confirma-subsidio">
                   <div class="pago radio-input">
-                    <label for="pago">Sim</label>
+                    <label for="pago">Yes</label>
                     <input type="radio" name="checkboxF" id="pagoF" />
                   </div>
                   <div class="confirma-subsidio">
                     <div class="nao-pago radio-input">
-                      <label for="nao-pago">Não</label>
+                      <label for="nao-pago">No</label>
                       <input type="radio" name="checkboxF" id="nao-pagoF" />
                     </div>
                   </div>
                 </div>
               </div>
               <div class="form-control hide" id="confirmacaoN">
-                <label class="legenda">Recebeu Subsídio de Natal?</label>
+                <label class="legenda">Did you receive Christmas Subsidy?</label>
                 <div id="confirma-subsidio">
                   <div class="pago radio-input">
-                    <label for="pago">Sim</label>
+                    <label for="pago">Yes</label>
                     <input type="radio" name="checkboxN" id="pagoN" />
                   </div>
                   <div class="confirma-subsidio">
                     <div class="nao-pago radio-input">
-                      <label for="nao-pago">Não</label>
+                      <label for="nao-pago">No</label>
                       <input type="radio" name="checkboxN" id="nao-pagoN" />
                     </div>
                   </div>
                 </div>
               </div>
               <div class="form-control">
-                <label for="comission">Comissões:</label>
-                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
+                <label for="comission">Commissions:</label>
+                <h6>*The decimal values should be inserted with a point instead of a comma.</h6>
                 <input
                   type="number"
                   name="comission"
                   id="comission"
-                  placeholder="Comissões"
+                  placeholder="Commissions"
                   step="0.01"
                 />
               </div>
               <div class="form-control">
-                <label for="faltas">Faltas (Em Horas):</label>
-                <h6>*Os valores decimais devem ser introduzidos com ponto.</h6>
-                <input type="number" name="faltas" id="faltas" placeholder="Faltas" step="0.01"/>
+                <label for="faltas">Absences (in hours):</label>
+                <h6>*The decimal values should be inserted with a point instead of a comma.</h6>
+                <input type="number" name="faltas" id="faltas" placeholder="Absences (in hours)" step="0.01"/>
               </div>
               <div class="action-control">
                 <button type="submit" id="calc-btn">Calcular</button>
-                <button type="submit" id="back-btn">Voltar</button>
-                <button type="submit" id="clear-btn-pageThree">Limpar</button>
+                <button type="submit" id="back-btn">Back</button>
+                <button type="submit" id="clear-btn-pageThree">Clear</button>
               </div>
             </div>
           
@@ -248,26 +248,26 @@
 
         <div id="pay-table">
           <div class="pay-header">
-            <h2>Descontos IRS</h2>
+            <h2>IRS taxes to deduce: </h2>
             <br />
             <p id="descIrs"></p>
-            <h2>Descontos Segurança Social</h2>
+            <h2>Social Security to deduce: </h2>
             <br />
             <p id="seg-social"></p>
-            <h2>Descontos por Faltas</h2>
+            <h2>Absences</h2>
             <br />
             <p id="por-faltas"></p>
-            <h2>Total de Descontos</h2>
+            <h2>Total Taxes</h2>
             <br />
             <p id="total-descontos"></p>
-            <h2>Vencimento Líquido</h2>
+            <h2>Net Salary</h2>
             <br />
             <p id="liquido"></p>
           </div>
         </div>
         <div class="action-control">
-          <button type="submit" id="back-btn-result">Voltar</button>
-          <button type="submit" id="restart">Recomeçar</button>
+          <button type="submit" id="back-btn-result">Back</button>
+          <button type="submit" id="restart">Restart</button>
         </div>
       </div>
     </div>

@@ -14,6 +14,7 @@
 body {
   background-color: #f4f4f9;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
@@ -31,6 +32,8 @@ body {
   padding: 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
+  display: flex;
+  justify-content: center;
 }
 
 /* Esconde os spinner controls em Webkit browsers (Chrome, Safari, Edge) */
@@ -230,4 +233,15 @@ button:hover {
   transition: 0.5s;
 }
 
+#language {
+  width: 100%;
+  display: flex;
+  justify-content: end; 
+}
 
+
+a img {
+  height: 15px;
+  width: auto;
+  padding-left: 0.5rem;
+}
