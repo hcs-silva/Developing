@@ -29,6 +29,60 @@
                 <input type="number" name="base" id="base" placeholder="Vencimento Base" step="0.01" />
               </div>
               <div class="form-control">
+                <label class="turnos">É portador de deficiência ?</label>
+                <div id="confirma-duodecimos">
+                  <div class="sim radio-input">
+                    <label for="sim">Sim</label>
+                    <input type="radio" name="deficiencia" id="deficiencia" />
+                  </div>
+                  <div class="nao radio-input">
+                    <label for="nao">Não</label>
+                    <input type="radio" name="deficiencia" id="sem-deficiencia" />
+                  </div>
+                </div>
+              </div>
+              <div class="form-control">
+                <label class="turnos">Tipo de Agregado</label>
+                <div id="confirma-duodecimos">
+                  <div id="nao-deficiente">
+                    <div class="sim radio-input">
+                      <label for="sim">Não casado sem dependentes ou casado dois titulares</label>
+                      <input type="radio" name="agregado" id="tableOne" />
+                    </div>
+                    <div class="nao radio-input">
+                      <label for="nao">Não casado com um ou mais dependentes</label>
+                      <input type="radio" name="agregado" id="tableTwo" />
+                    </div>
+                    <div class="nao radio-input">
+                      <label for="nao">Casado único titular</label>
+                      <input type="radio" name="agregado" id="tableThree" />
+                    </div>
+                  </div>
+                  <div id="deficiente" class="hide">
+                    <div class="sim radio-input">
+                      <label for="sim">Não casado ou casado dois titulares sem dependentes</label>
+                      <input type="radio" name="agregado" id="tableFour" />
+                    </div>
+                    <div class="nao radio-input">
+                      <label for="nao">Não casado, com um ou mais dependentes</label>
+                      <input type="radio" name="agregado" id="tableFive" />
+                    </div>
+                    <div class="nao radio-input">
+                      <label for="nao">Casado dois titulares, com um ou mais dependentes</label>
+                      <input type="radio" name="agregado" id="tableSix" />
+                    </div>
+                    <div class="nao radio-input">
+                      <label for="nao">Casado único titular</label>
+                      <input type="radio" name="agregado" id="tableSeven" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-control">
+                <label for="base">Número de dependentes:</label>                
+                <input type="number" name="dependentes" id="dependentes" placeholder="Número de dependentes"/>
+              </div>
+              <div class="form-control">
                 <label class="turnos">Trabalho por Turnos ?</label>
                 <div id="confirma-duodecimos">
                   <div class="sim radio-input">

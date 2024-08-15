@@ -146,6 +146,10 @@ const valorAlimBox = document.querySelector("#diarioAlimBox");
 const ticket = document.querySelector("#euroTicket");
 const dinheiro = document.querySelector("#money");
 const tipoPagamento = document.querySelector("#tipo-pagamento");
+const deficiente = document.querySelector("#deficiencia");
+const naoDeficiente = document.querySelector("#sem-deficiencia");
+const deficienteBox = document.querySelector("#deficiente");
+const naoDeficienteBox = document.querySelector("#nao-deficiente");
 
 //Seleção de páginas
 
@@ -332,6 +336,19 @@ function toggleHoras() {
 
   if (!fezHoras.checked && naoFezHoras.checked) {
     formHoras.classList.add("hide");
+  }
+}
+
+//Toggle form deficiência
+function toggleDeficiencia() {
+  if (deficiente.checked && !naoDeficiente.checked) {
+    deficienteBox.classList.remove("hide");
+    naoDeficienteBox.classList.add("hide");
+  }
+
+  if(!deficiente.checked && naoDeficiente.checked) {
+    deficienteBox.classList.add("hide");
+    naoDeficienteBox.classList.remove("hide");
   }
 }
 
@@ -764,3 +781,11 @@ restart.addEventListener("click", (e) => {
   result.classList.add("hide");
   pageOne.classList.remove("hide");
 });
+
+deficiente.addEventListener("change", () => {
+  toggleDeficiencia();
+})
+
+naoDeficiente.addEventListener("change", () => {
+  toggleDeficiencia();
+})
