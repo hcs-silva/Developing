@@ -88,7 +88,7 @@ const tableSeven = [
   { min: 2105.51, max: 3622.95, taxa: 0.117, parcela: 42.86 },
   { min: 3622.95, max: 6587.01, taxa: 0.213, parcela: 42.86 },
   { min: 6587.01, max: 20264.85, taxa: 0.356, parcela: 42.86 },
-]
+];
 
 // Seleção de Elementos
 
@@ -150,6 +150,17 @@ const deficiente = document.querySelector("#deficiencia");
 const naoDeficiente = document.querySelector("#sem-deficiencia");
 const deficienteBox = document.querySelector("#deficiente");
 const naoDeficienteBox = document.querySelector("#nao-deficiente");
+const tipoAgregado = document.querySelector("#tipoAgregado");
+
+//Seleção de agregado familiar
+
+const tabelaUm = document.querySelector("#tableOne");
+const tabelaDois = document.querySelector("#tableTwo");
+const tabelaTres = document.querySelector("#tableThree");
+const tabelaQuatro = document.querySelector("#tableFour");
+const tabelaCinco = document.querySelector("#tableFive");
+const tabelaSeis = document.querySelector("#tableSix");
+const tabelaSete = document.querySelector("#tableSeven");
 
 //Seleção de páginas
 
@@ -342,15 +353,19 @@ function toggleHoras() {
 //Toggle form deficiência
 function toggleDeficiencia() {
   if (deficiente.checked && !naoDeficiente.checked) {
+    tipoAgregado.classList.remove("hide");
     deficienteBox.classList.remove("hide");
     naoDeficienteBox.classList.add("hide");
   }
 
-  if(!deficiente.checked && naoDeficiente.checked) {
-    deficienteBox.classList.add("hide");
+  if (!deficiente.checked && naoDeficiente.checked) {
+    tipoAgregado.classList.remove("hide");
     naoDeficienteBox.classList.remove("hide");
+    deficienteBox.classList.add("hide");
   }
 }
+
+//Definir escalão IRS com base no agregado familiar
 
 //Calcular valor das horas extra
 
@@ -454,7 +469,8 @@ function vencLiquido(
   subsidio,
   totalHoras,
   nightHours,
-  alimParaDescontos
+  alimParaDescontos,
+  agregado
 ) {
   const vencBruto = (
     vencBase +
@@ -479,10 +495,46 @@ function vencLiquido(
     naoRemuneradoPart,
     naoRemuneradoFull
   );
-  //const taxBracket = taxdata.find(
-  //  (item) => vencBruto > item.min && vencBruto <= item.max
-  //);
-  //const irs = taxBracket ? vencBruto * taxBracket.taxa : 0;
+
+  function taxaIRS(agregado) {
+    let taxBracket = 0;
+    switch (agregado) {
+      case tabelaUm:
+        tableOne.find((item) => vencBruto > item.min && vencBruto < item.max);
+        taxBracket = item.taxa;
+        break;
+      case tabeladois:
+        tableTwo.find((item) => vencBruto > item.min && vencBruto < item.max);
+        taxBracket = item.taxa;
+        break;
+      case tabelaTres:
+        tableThree.find((item) => vencBruto > item.min && vencBruto < item.max);
+        taxBracket = item.taxa;
+        break;
+      case tabelaQuatro:
+        tableFour.find((item) => vencBruto > item.min && vencBruto < item.max);
+        taxBracket = item.taxa;
+        break;
+      case tabelaCinco:
+        tableFive.find((item) => vencBruto > item.min && vencBruto < item.max);
+        taxBracket = item.taxa;
+        break;
+      case tabelaSeis:
+        tableSix.find((item) => vencBruto > item.min && vencBruto < item.max);
+        taxBracket = item.taxa;
+        break;
+      case tabelaSete:
+        tableSeven.find((item) => vencBruto > item.min && vencBruto < item.max);
+        taxBracket = item.taxa;
+        break;
+    };
+
+    return taxBracket;
+  }
+
+  taxaIRS();
+ 
+  const irs = taxBracket ? vencBruto * taxBracket.taxa : 0;
 
   const segSocial = vencBruto * 0.11;
 
@@ -645,9 +697,14 @@ function clearPageOne() {
   horasNoturnas.value = null;
   vencBase.value = null;
   valorAlim.value = null;
+  tipoAgregado.classList.add("hide");
   horasNoturnasBox.classList.add("hide");
   tipoPagamento.classList.add("hide");
   valorAlimBox.classList.add("hide");
+  deficiente.checked = false;
+  naoDeficiente.checked = false;
+  deficienteBox.classList.add("hide");
+  naoDeficienteBox.classList.add("hide");
 }
 
 function clearPageTwo() {
@@ -784,8 +841,8 @@ restart.addEventListener("click", (e) => {
 
 deficiente.addEventListener("change", () => {
   toggleDeficiencia();
-})
+});
 
 naoDeficiente.addEventListener("change", () => {
   toggleDeficiencia();
-})
+});
