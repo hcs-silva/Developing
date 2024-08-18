@@ -503,7 +503,7 @@ function vencLiquido(
         tableOne.find((item) => vencBruto > item.min && vencBruto < item.max);
         taxBracket = item.taxa;
         break;
-      case tabeladois:
+      case tabelaDois:
         tableTwo.find((item) => vencBruto > item.min && vencBruto < item.max);
         taxBracket = item.taxa;
         break;
@@ -528,6 +528,7 @@ function vencLiquido(
         taxBracket = item.taxa;
         break;
     };
+    console.log(taxBracket)
 
     return taxBracket;
   }
