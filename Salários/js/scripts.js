@@ -367,6 +367,20 @@ function toggleDeficiencia() {
 
 //Definir escalão IRS com base no agregado familiar
 
+function taxTableDeficiente() {
+  let tabelaDeficiente = none;
+
+  if(deficiente.checked && tabelaQuatro.checked) {
+    tabelaDeficiente = tableFour;
+  }else if (deficiente.ckecked && tabelaCinco.checked) {
+    tabelaDeficiente = tableFive;
+  }else if (deficiente.checked && tabelaSeis.checked) {
+    tabelaDeficiente = tableSix;
+  }else if(deficiente.checked && tabelaSete.checked) {
+    tabelaDeficiente = tableSeven;
+  } else tabelaDeficiente = none;
+}
+
 //Calcular valor das horas extra
 
 function horasExtraordinarias(horas50, horas75, horas100, precoHora) {
