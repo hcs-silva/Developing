@@ -266,7 +266,7 @@ function subsidioRecebido(vencBase) {
       subsidioCompleto.classList.add("hide");
     }
   }
-  console.log(subsidio);
+  // console.log(subsidio);
   return subsidio;
 }
 
@@ -321,7 +321,7 @@ function calcAlim(valorAlim, faltas, alimFinal) {
       alimParaDescontos = 0;
     }
   }
-  console.log(alimParaDescontos);
+  // console.log(alimParaDescontos);
   return alimParaDescontos;
 }
 
@@ -397,7 +397,7 @@ function horasExtraordinarias(horas50, horas75, horas100, precoHora) {
       horas75 * (precoHora * 1.75) +
       horas100 * (precoHora * 2);
   }
-  console.log(totalHoras);
+  // console.log(totalHoras);
   return totalHoras;
 }
 
@@ -421,7 +421,7 @@ function valorHora(vencBase, horasTrabalhadas) {
   const base = parseFloat(vencBase);
   const horasSemana = contratoFull.checked ? 40 : parseFloat(horasTrabalhadas);
   const precoHora = parseFloat(((base * 12) / (52 * horasSemana)).toFixed(2));
-  console.log(precoHora);
+  // console.log(precoHora);
   return precoHora;
 }
 
@@ -441,7 +441,7 @@ function horasNoite(horasNoturnas) {
     noturnas.classList.add("hide");
     nightHours = 0;
   }
-  console.log(nightHours);
+  // console.log(nightHours);
   return isNaN(nightHours) ? 0 : nightHours;
 }
 
@@ -455,7 +455,7 @@ function naoRemuneradoFull(faltas, precoHora) {
   if (contratoFull.checked && faltas <= 173) {
     valorDescontadoFull = faltas * precoHora;
   }
-  console.log(valorDescontadoFull);
+  // console.log(valorDescontadoFull);
   return valorDescontadoFull;
 }
 
@@ -470,7 +470,7 @@ function naoRemuneradoPart(faltas, precoHora, horasTrabalhadas) {
   if (contratoPart.checked && faltas <= horasTrabalhadas * 4) {
     valorDescontadoPart = faltas * precoHora;
   }
-  console.log(valorDescontadoPart);
+  // console.log(valorDescontadoPart);
   return valorDescontadoPart;
 }
 
@@ -498,17 +498,17 @@ function vencLiquido(
     naoRemuneradoFull
   ).toFixed(2);
 
-  console.log(
-    vencBase,
-    duodecimos,
-    subsidio,
-    totalHoras,
-    nightHours,
-    alimParaDescontos,
-    comission,
-    naoRemuneradoPart,
-    naoRemuneradoFull
-  );
+  // console.log(
+  //   vencBase,
+  //   duodecimos,
+  //   subsidio,
+  //   totalHoras,
+  //   nightHours,
+  //   alimParaDescontos,
+  //   comission,
+  //   naoRemuneradoPart,
+  //   naoRemuneradoFull
+  // );
 
   function taxaIRS(agregado) {
     let taxBracket = 0;
@@ -602,7 +602,7 @@ function calcular() {
     ? naoRemPart.toFixed(2)
     : naoRemFull.toFixed(2);
 
-  console.log(partOrFull);
+  // console.log(partOrFull);
 
   const vencBruto = parseFloat(
     base +
@@ -616,17 +616,17 @@ function calcular() {
       naoRemPart
   ).toFixed(2);
 
-  console.log(
-    base,
-    duodec,
-    commission,
-    totalHoras,
-    nightHours,
-    alimDesc,
-    subsidio,
-    naoRemFull,
-    naoRemPart
-  );
+  // console.log(
+  //   base,
+  //   duodec,
+  //   commission,
+  //   totalHoras,
+  //   nightHours,
+  //   alimDesc,
+  //   subsidio,
+  //   naoRemFull,
+  //   naoRemPart
+  // );
   const taxBracket = taxdata.find(
     (item) => vencBruto > item.min && vencBruto <= item.max
   );
