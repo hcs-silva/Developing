@@ -29,6 +29,60 @@
                 <input type="number" name="base" id="base" placeholder="Base Salary" step="0.01" />
               </div>
               <div class="form-control">
+                <label class="turnos">Do you have a disability ?</label>
+                <div id="confirma-duodecimos">
+                  <div class="sim radio-input">
+                    <label for="sim">Yes</label>
+                    <input type="radio" name="deficiencia" id="deficiencia" />
+                  </div>
+                  <div class="nao radio-input">
+                    <label for="nao">No</label>
+                    <input type="radio" name="deficiencia" id="sem-deficiencia" />
+                  </div>
+                </div>
+              </div>
+              <div class="form-control hide" id="tipoAgregado">
+                <label class="turnos">Household Type</label>
+                <div id="confirma-duodecimos">
+                  <div id="nao-deficiente" class="hide">
+                    <div class="sim radio-input">
+                      <label for="sim">Single with no dependents or married two earners</label>
+                      <input type="radio" name="agregado" id="tableOne" />
+                    </div>
+                    <div class="nao radio-input">
+                      <label for="nao">Single with one or more dependents</label>
+                      <input type="radio" name="agregado" id="tableTwo" />
+                    </div>
+                    <div class="nao radio-input">
+                      <label for="nao">Married single earner</label>
+                      <input type="radio" name="agregado" id="tableThree" />
+                    </div>
+                  </div>
+                  <div id="deficiente" class="hide">
+                    <div class="sim radio-input">
+                      <label for="sim">Single or married two earners with no dependents</label>
+                      <input type="radio" name="agregado" id="tableFour" />
+                    </div>
+                    <div class="nao radio-input">
+                      <label for="nao">Single, with one or more dependents</label>
+                      <input type="radio" name="agregado" id="tableFive" />
+                    </div>
+                    <div class="nao radio-input">
+                      <label for="nao">Married two earners, with one or more dependents</label>
+                      <input type="radio" name="agregado" id="tableSix" />
+                    </div>
+                    <div class="nao radio-input">
+                      <label for="nao">Married single earner</label>
+                      <input type="radio" name="agregado" id="tableSeven" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-control">
+                <label for="base">Number of dependents:</label>
+                <input type="number" name="dependentes" id="dependentes" placeholder="Number of dependents"/>
+              </div>
+              <div class="form-control">
                 <label class="turnos">Do you work in Shifts ?</label>
                 <div id="confirma-duodecimos">
                   <div class="sim radio-input">
@@ -226,7 +280,7 @@
                 <input type="number" name="faltas" id="faltas" placeholder="Absences (in hours)" step="0.01"/>
               </div>
               <div class="action-control">
-                <button type="submit" id="calc-btn">Calcular</button>
+                <button type="submit" id="calc-btn">Calculate</button>
                 <button type="submit" id="back-btn">Back</button>
                 <button type="submit" id="clear-btn-pageThree">Clear</button>
               </div>

@@ -368,23 +368,38 @@ function toggleDeficiencia() {
 //Definir escalão IRS com base no agregado familiar
 
 function taxTableDeficiente() {
-  let tabelaDeficiente = none;
+  let tabelaDeficiente = null;
 
-  if(deficiente.checked && tabelaQuatro.checked) {
+  if (deficiente.checked && tabelaQuatro.checked) {
     tabelaDeficiente = tableFour;
-  }else if (deficiente.ckecked && tabelaCinco.checked) {
+  } else if (deficiente.checked && tabelaCinco.checked) {
     tabelaDeficiente = tableFive;
-  }else if (deficiente.checked && tabelaSeis.checked) {
+  } else if (deficiente.checked && tabelaSeis.checked) {
     tabelaDeficiente = tableSix;
-  }else if(deficiente.checked && tabelaSete.checked) {
+  } else if (deficiente.checked && tabelaSete.checked) {
     tabelaDeficiente = tableSeven;
-  } else tabelaDeficiente = none;
+  } else {
+    tabelaDeficiente = null;
+  }
+  return tabelaDeficiente;
+}
+
+// Devolve a tabela de IRS correspondente ao agregado familiar selecionado
+function getSelectedTaxTable() {
+  if (tabelaUm.checked) return tableOne;
+  if (tabelaDois.checked) return tableTwo;
+  if (tabelaTres.checked) return tableThree;
+  if (tabelaQuatro.checked) return tableFour;
+  if (tabelaCinco.checked) return tableFive;
+  if (tabelaSeis.checked) return tableSix;
+  if (tabelaSete.checked) return tableSeven;
+  return tableOne;
 }
 
 //Calcular valor das horas extra
 
 function horasExtraordinarias(horas50, horas75, horas100, precoHora) {
-  let totalHoras;
+  let totalHoras = 0;
   if (!fezHoras.checked && naoFezHoras.checked) {
     totalHoras = 0;
     extra.classList.add("hide");
@@ -510,46 +525,19 @@ function vencLiquido(
   //   naoRemuneradoFull
   // );
 
-  function taxaIRS(agregado) {
-    let taxBracket = 0;
-    switch (agregado) {
-      case tabelaUm:
-        tableOne.find((item) => vencBruto > item.min && vencBruto < item.max);
-        taxBracket = item.taxa;
-        break;
-      case tabelaDois:
-        tableTwo.find((item) => vencBruto > item.min && vencBruto < item.max);
-        taxBracket = item.taxa;
-        break;
-      case tabelaTres:
-        tableThree.find((item) => vencBruto > item.min && vencBruto < item.max);
-        taxBracket = item.taxa;
-        break;
-      case tabelaQuatro:
-        tableFour.find((item) => vencBruto > item.min && vencBruto < item.max);
-        taxBracket = item.taxa;
-        break;
-      case tabelaCinco:
-        tableFive.find((item) => vencBruto > item.min && vencBruto < item.max);
-        taxBracket = item.taxa;
-        break;
-      case tabelaSeis:
-        tableSix.find((item) => vencBruto > item.min && vencBruto < item.max);
-        taxBracket = item.taxa;
-        break;
-      case tabelaSete:
-        tableSeven.find((item) => vencBruto > item.min && vencBruto < item.max);
-        taxBracket = item.taxa;
-        break;
-    };
-    console.log(taxBracket)
-
-    return taxBracket;
+  function taxaIRS() {
+    const selectedTable = getSelectedTaxTable();
+    const bracket = selectedTable.find(
+      (item) => parseFloat(vencBruto) > item.min && parseFloat(vencBruto) <= item.max
+    );
+    return bracket || null;
   }
 
-  taxaIRS();
- 
-  const irs = taxBracket ? vencBruto * taxBracket.taxa : 0;
+  const taxBracket = taxaIRS();
+
+  const irs = taxBracket
+    ? Math.max(0, parseFloat(vencBruto) * taxBracket.taxa - taxBracket.parcela)
+    : 0;
 
   const segSocial = vencBruto * 0.11;
 
@@ -559,7 +547,6 @@ function vencLiquido(
 }
 
 function calcular() {
-  const faltas = document.querySelector("#faltas");
   const base = parseFloat(vencBase.value);
   const commission = parseFloat(comission.value);
   const absences = parseFloat(faltas.value);
@@ -627,24 +614,17 @@ function calcular() {
   //   naoRemFull,
   //   naoRemPart
   // );
-  const taxBracket = taxdata.find(
+  const selectedTable = getSelectedTaxTable();
+  const taxBracket = selectedTable.find(
     (item) => vencBruto > item.min && vencBruto <= item.max
   );
-  const irs = taxBracket ? vencBruto * taxBracket.taxa : 0;
+  const irs = taxBracket
+    ? Math.max(0, parseFloat(vencBruto) * taxBracket.taxa - taxBracket.parcela)
+    : 0;
   const segSocial = vencBruto * 0.11;
 
   const totalDesc = (irs + segSocial).toFixed(2);
-  const vencFinal = vencLiquido(
-    base,
-    duodec,
-    naoRemFull,
-    naoRemPart,
-    commission,
-    subsidio,
-    totalHoras,
-    nightHours,
-    alimDesc
-  );
+  const vencFinal = (parseFloat(vencBruto) - irs - segSocial).toFixed(2);
 
   duodecimoNatal.textContent = `O seu Duodécimo do Subsídio de Natal é: ${duodec}€`;
   duodecimoFerias.textContent = `O seu Duodécimo do Subsídio de Férias é: ${duodec}€`;
@@ -686,7 +666,7 @@ function clearAll() {
   contratoFull.checked = false;
   contratoPart.checked = false;
   fezHoras.checked = false;
-  naoFezHoras = false;
+  naoFezHoras.checked = false;
   porTurnos.checked = false;
   semTurnos.checked = false;
   recebeSubAlim.checked = false;
